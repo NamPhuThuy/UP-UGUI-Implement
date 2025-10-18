@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a148885720419b84a9979ccc60849441, type: 3}
+  m_Name: SamplePlayerData
+  m_EditorClassIdentifier: 
+  PlayerDatas:
+  - name: NamPhuThuy
+    rank: 0
+    avatar: {fileID: 21300000, guid: 6562caf053e278e48a34b7176ce0d131, type: 3}
+    level: 123
+  - name: Ech vl
+    rank: 6
+    avatar: {fileID: 21300000, guid: 74387beaaf7fab94d9e82cecfb9d4e26, type: 3}
+    level: 99
+  - name: DontKnow
+    rank: 0
+    avatar: {fileID: 21300000, guid: 4d13731fa545b894fb08cf0b6e53f0e8, type: 3}
+    level: 65
+  - name: Doraemon
+    rank: 0
+    avatar: {fileID: 21300000, guid: b9aaa8d9a7107a843adfbcc72fa184e8, type: 3}
+    level: 14
+  - name: Jasmine Bons
+    rank: 3
+    avatar: {fileID: 21300000, guid: 53ebb2af84caed142acaa66634b0e0ee, type: 3}
+    level: 37
+  - name: Chick chick
+    rank: 0
+    avatar: {fileID: 21300000, guid: cc4db40bef225734691b7a2cca3edab3, type: 3}
+    level: 65
+  - name: Flower
+    rank: 4
+    avatar: {fileID: 21300000, guid: 69e881f3ff20d5b448a1065d65b2e3e0, type: 3}
+    level: 73
+  - name: Jane Marry
+    rank: 5
+    avatar: {fileID: 21300000, guid: f37134b03c2af614293f69fdaa3b097b, type: 3}
+    level: 34
+  - name: Hana
+    rank: 2
+    avatar: {fileID: 21300000, guid: b9b32431b1908914e9d224edbd9533d3, type: 3}
+    level: 56
+  - name: Cat Chris
+    rank: 4
+    avatar: {fileID: 21300000, guid: 7a12dc48e88abe14dabb375c4b3bed1c, type: 3}
+    level: 57
