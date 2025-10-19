@@ -1,13 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using NamPhuThuy.Common;
-using NamPhuThuy.Data;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 
 #if UNITY_EDITOR
 using UnityEditor;
