@@ -63,7 +63,7 @@ namespace NamPhuThuy.UI
         
         private IEnumerator IEInit()
         {
-            yield return YieldHelper.Get(0.1f);
+            yield return YieldHelper.WaitForSeconds(0.1f);
 
             ScrollTheViewToTop();
         }
