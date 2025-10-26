@@ -28,7 +28,6 @@ namespace NamPhuThuy.UI
         [Header("Components")]
         [SerializeField] private Image guiMask;
         [SerializeField] private CanvasGroup canvasGroup;
-        [SerializeField] private RectTransform canvasGroupRT;
 
         [Header("Behaviour")]
         private List<Tween> showTweens = new List<Tween>();
@@ -130,7 +129,11 @@ namespace NamPhuThuy.UI
             switch (currentType)
             {
                 case GUIType.FULL_SCREEN:
-                    if (canvasGroup == null) break;
+                    if (canvasGroup == null)
+                    {
+                        transform.gameObject.SetActive(false);
+                        break;
+                    }
 
                     hideTweens.Add(canvasGroup.DOFade(0, hideDuration).SetEase(Ease.OutQuad).OnComplete(() =>
                     {
@@ -139,6 +142,11 @@ namespace NamPhuThuy.UI
                     }));
                     break;
                 case GUIType.POP_UP:
+                    if (canvasGroup == null)
+                    {
+                        transform.gameObject.SetActive(false);
+                        break;
+                    }
 
                     hideTweens.Add(
                         canvasGroup.transform.DOScale(1.1f * Vector3.one, 0.5f * hideDuration).SetEase(Ease.OutQuad)
@@ -175,11 +183,6 @@ namespace NamPhuThuy.UI
             if (canvasGroup != null)
             {
                 canvasGroup.alpha = 1;
-
-                if (canvasGroupRT == null)
-                {
-                    canvasGroupRT = canvasGroup.GetComponent<RectTransform>();
-                }
 
                 canvasGroup.alpha = 0f;
 
