@@ -36,7 +36,6 @@ namespace NamPhuThuy.UI
         private List<Sequence> _sequences = new List<Sequence>();
 
         [Header("Flags")]
-        public bool isShowing = false;
         [SerializeField] private GUIType currentType = GUIType.FULL_SCREEN;
         public GUIType CurrentType => currentType;
 
@@ -49,9 +48,6 @@ namespace NamPhuThuy.UI
 
         public virtual void Show(params object[] parameters)
         {
-            if (isShowing) return;
-            isShowing = true;
-
             transform.SetAsLastSibling(); // show the GUI on top
 
             transform.gameObject.SetActive(true);
@@ -106,9 +102,6 @@ namespace NamPhuThuy.UI
 
         public virtual void Hide(params object[] parameters)
         {
-            if (!isShowing) return;
-            isShowing = false;
-
             if (showTweens.Count > 0)
             {
                 foreach (var tween in showTweens)
@@ -170,8 +163,6 @@ namespace NamPhuThuy.UI
 
         protected void HideImmediately()
         {
-            isShowing = false;
-
             transform.gameObject.SetActive(false);
         }
 
