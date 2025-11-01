@@ -18,10 +18,11 @@ namespace NamPhuThuy.UI
         [Tooltip("Where to anchor the background.")]
         [SerializeField] private AnchorPreset anchor = AnchorPreset.MiddleCenter;
 
-        private RectTransform rect;
-        private Image image;
+        [Header("Components")]
+        [SerializeField] private RectTransform rect;
+        [SerializeField] private Image image;
 
-        #region
+        #region MonoBehaviour Callbacks
         private void Awake()
         {
             rect = GetComponent<RectTransform>();
