@@ -10,10 +10,23 @@ namespace NamPhuThuy.UI
 {
     public class GUIBase : MonoBehaviour
     {
-        public enum GUIType
+        public enum Type
         {
             FULL_SCREEN = 0,
             POP_UP = 1
+        }
+        
+        public enum GUIId
+        {
+            GUI_HUD = 0,
+            GUI_LEVEL_WIN = 1,
+            GUI_LEVEL_LOSE = 2,
+            GUI_SETTINGS = 3,
+            GUI_OFFER_BOOSTER = 4,
+            GUI_SHOP = 5,
+            
+            GUI_CHEAT = 99,
+            
         }
 
         [Header("Stats")]
@@ -35,8 +48,10 @@ namespace NamPhuThuy.UI
         private List<Sequence> _sequences = new List<Sequence>();
 
         [Header("Flags")]
-        [SerializeField] private GUIType currentType = GUIType.FULL_SCREEN;
-        public GUIType CurrentType => currentType;
+        [SerializeField] private Type currentType = Type.FULL_SCREEN;
+        public Type CurrentType => currentType;
+        [SerializeField] private GUIId guiId;
+        public GUIId GuiId => guiId;
 
         // [Header("Events")]
         public event Action OnShow;
@@ -72,10 +87,10 @@ namespace NamPhuThuy.UI
 
             switch (currentType)
             {
-                case GUIType.FULL_SCREEN:
+                case Type.FULL_SCREEN:
                     PlayFullscreenShowAnimation();
                     break;
-                case GUIType.POP_UP:
+                case Type.POP_UP:
 
                     canvasGroup.transform.localScale = Vector3.zero;
                     canvasGroup.alpha = 1;
@@ -128,7 +143,7 @@ namespace NamPhuThuy.UI
 
             switch (currentType)
             {
-                case GUIType.FULL_SCREEN:
+                case Type.FULL_SCREEN:
                     if (canvasGroup == null)
                     {
                         transform.gameObject.SetActive(false);
@@ -141,7 +156,7 @@ namespace NamPhuThuy.UI
                         transform.gameObject.SetActive(false);
                     }));
                     break;
-                case GUIType.POP_UP:
+                case Type.POP_UP:
                     if (canvasGroup == null)
                     {
                         transform.gameObject.SetActive(false);
