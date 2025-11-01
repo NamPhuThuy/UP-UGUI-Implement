@@ -19,7 +19,7 @@ namespace NamPhuThuy.UI
         [Header("Stats")]
         [SerializeField] protected float showDuration = 0.4f;
         [SerializeField] protected float hideDuration = 0.4f;
-        [SerializeField] protected float GUIMaskInitialAlpha = 0.95f;
+        [SerializeField] protected float GUIMaskInitialAlpha = 0.8f;
 
         [Space(10)]
         [SerializeField] protected float showDelay = 0f;
