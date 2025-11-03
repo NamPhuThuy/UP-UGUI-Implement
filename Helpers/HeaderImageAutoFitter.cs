@@ -2,10 +2,15 @@ using System;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
-using UnityEditor.SceneManagement;
+
+
+
 using Object = UnityEngine.Object;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
+#endif
 
 namespace NamPhuThuy.UI
 {
@@ -227,17 +232,6 @@ namespace NamPhuThuy.UI
             var rt = c.GetComponent<RectTransform>();
             if (rt != null) EditorUtility.SetDirty(rt);
             EditorSceneManager.MarkSceneDirty(c.gameObject.scene);
-        }
-
-        [MenuItem("Tools/UI/Fit HeaderImageAutoFitter on Selection")]
-        private static void FitSelection()
-        {
-            foreach (var go in Selection.gameObjects)
-            {
-                var comp = go.GetComponent<HeaderImageAutoFitter>();
-                if (comp == null) continue;
-                CallFit(comp);
-            }
         }
     }
 
