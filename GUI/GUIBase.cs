@@ -184,11 +184,6 @@ namespace NamPhuThuy.UI
             TriggerOnHide();
         }
 
-        protected void HideImmediately()
-        {
-            transform.gameObject.SetActive(false);
-        }
-
         #endregion
 
         #region Private Methods
