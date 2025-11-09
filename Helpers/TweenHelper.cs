@@ -112,5 +112,78 @@ namespace NamPhuThuy.UI
             if (clearList)
                 tweens.Clear();
         }
+
+
+
+        #region PULSE
+
+        // Pulse: scale up then back to start, repeated `loops` times.
+        public static Sequence DOScalePulse(
+            Transform target,
+            float upMul = 1.15f,
+            float upDuration = 0.2f,
+            float downDuration = 0.18f,
+            int loops = 2,
+            Ease upEase = Ease.InOutSine,
+            Ease downEase = Ease.InOutSine)
+        {
+            if (target == null) return null;
+
+            var start = target.localScale;
+            var seq = DOTween.Sequence();
+            loops = Mathf.Max(0, loops);
+
+            for (int i = 0; i < loops; i++)
+            {
+                seq.Append(target.DOScale(start * upMul, upDuration).SetEase(upEase));
+                seq.Append(target.DOScale(start, downDuration).SetEase(downEase));
+            }
+
+            return seq;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="upMul"></param>
+        /// <param name="upDuration"></param>
+        /// <param name="downDuration"></param>
+        /// <param name="loops"></param>
+        /// <param name="upEase"></param>
+        /// <param name="downEase"></param>
+        /// <param name="shrinkDuration"></param>
+        /// <param name="shrinkEase"></param>
+        /// <example>
+        /// Example usage:
+        /// - Default (pulse twice then shrink):
+        ///   TweenHelper.DOScalePulseAndShrink(transform);
+        /// - Await inside a coroutine:
+        ///   yield return TweenHelper.DOScalePulseAndShrink(transform).WaitForCompletion();
+        /// - On complete cleanup:
+        ///   TweenHelper.DOScalePulseAndShrink(transform, loops: 3)
+        ///       .OnComplete(() =&gt; Destroy(gameObject));
+        /// </example>
+        /// <returns></returns>
+        public static Sequence DOScalePulseAndShrink(
+            Transform target,
+            float upMul = 1.15f,
+            float upDuration = 0.2f,
+            float downDuration = 0.18f,
+            int loops = 2,
+            Ease upEase = Ease.InOutSine,
+            Ease downEase = Ease.InOutSine,
+            float shrinkDuration = 0.18f,
+            Ease shrinkEase = Ease.InSine)
+        {
+            if (target == null) return null;
+
+            var seq = DOScalePulse(target, upMul, upDuration, downDuration, loops, upEase, downEase);
+            seq.Append(target.DOScale(0f, shrinkDuration).SetEase(shrinkEase));
+            return seq;
+        }
+        
+        #endregion
+        
     }
 }
