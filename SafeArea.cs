@@ -9,14 +9,14 @@ namespace NamPhuThuy.UI
 {
     [SerializeField] private Canvas canvas;
 
-    private void Awake()
+    private void Start()
     {
         AdjustToSafeArea();
     }
 
     private void OnValidate()
     {
-        AdjustToSafeArea();
+        // AdjustToSafeArea();
     }
 
     private void AdjustToSafeArea()
