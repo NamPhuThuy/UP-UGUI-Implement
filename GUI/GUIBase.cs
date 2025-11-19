@@ -25,6 +25,7 @@ namespace NamPhuThuy.UI
             GUI_OFFER_BOOSTER = 4,
             GUI_SHOP = 5,
             GUI_LEVEL_TRANSITION = 6,
+            GUI_LOSE_HEART_WARNING = 7,
             
             GUI_CHEAT = 99,
             

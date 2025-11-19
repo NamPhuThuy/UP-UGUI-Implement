@@ -19,11 +19,13 @@ namespace NamPhuThuy
             ON = 1
         }
         #region Private Serializable Fields
+
+        [Header("Flags")] 
+        [SerializeField] private bool isChangeColor;
         
         [Header("Background")]
         [SerializeField] private Image backgroundImage;
-        [SerializeField] private Sprite offSprite;
-        [SerializeField] private Sprite onSprite;
+        [SerializeField] private Image onStateImage;
 
         [Header("Indicator")]
         [SerializeField] private RectTransform indicator;
@@ -65,29 +67,50 @@ namespace NamPhuThuy
         
         private void ApplyStateImmediate()
         {
-            backgroundImage.sprite = _currentState == State.ON ? onSprite : offSprite;
-            backgroundImage.color = Color.white;
-            indicator.anchoredPosition = _currentState == State.ON ? onTransform.anchoredPosition : offTransform.anchoredPosition;
+            // Set overlay image (onStateImage) alpha based on state
+            float targetAlpha = _currentState == State.ON ? 1f : 0f;
+            Color onColor = onStateImage.color;
+            onColor.a = targetAlpha;
+            onStateImage.color = onColor;
+
+            // Move indicator to correct position
+            indicator.anchoredPosition = _currentState == State.ON
+                ? onTransform.anchoredPosition
+                : offTransform.anchoredPosition;
         }
 
         private void AnimateToState()
         {
             // Fade background
-            Sprite targetSprite = _currentState == State.ON ? onSprite : offSprite;
-            Color targetColor = _currentState == State.ON ? onSprite.texture.GetPixel(100, 50) : offSprite.texture.GetPixel(100, 50);
+            Color targetColor = _currentState == State.ON ? onStateImage.sprite.texture.GetPixel(100, 50) : backgroundImage.sprite.texture.GetPixel(100, 50);
+            
+            int targetAlpha = _currentState == State.ON ? 1 : 0;
 
             _fadeTween = DOTween.Sequence()
-                .Append(backgroundImage.DOColor(targetColor, fadeDuration))
-                .AppendCallback(() =>
+                .Append(onStateImage.DOFade(targetAlpha, fadeDuration))
+                .AppendCallback((() =>
                 {
-                    backgroundImage.sprite = targetSprite;
-                    backgroundImage.color = Color.white; 
-                });
-            
+                    var c = onStateImage.color;
+                    c.a = targetAlpha;              // force alpha to 1
+                    onStateImage.color = c;
+                }));
+
+            if (isChangeColor)
+            {
+                _fadeTween = DOTween.Sequence()
+                    .Append(onStateImage.DOColor(targetColor, fadeDuration))
+                    .AppendCallback(() =>
+                    {
+                        onStateImage.color = Color.white;
+                    });
+            }            
 
             // Move indicator
             Vector2 targetPosition = _currentState == State.ON ? onTransform.anchoredPosition : offTransform.anchoredPosition;
-            _moveTween = indicator.DOAnchorPos(targetPosition, moveDuration).SetEase(moveEase);
+            _moveTween = indicator.DOAnchorPos(targetPosition, moveDuration).SetEase(moveEase).OnComplete((() =>
+            {
+                
+            }));
         }
 
         private void OnDestroy()
