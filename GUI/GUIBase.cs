@@ -26,6 +26,7 @@ namespace NamPhuThuy.UI
             GUI_SHOP = 5,
             GUI_LEVEL_TRANSITION = 6,
             GUI_LOSE_HEART_WARNING = 7,
+            GUI_RATING = 8,
             
             GUI_CHEAT = 99,
             
@@ -184,6 +185,11 @@ namespace NamPhuThuy.UI
 
 
             TriggerOnHide();
+        }
+
+        public void SetGUIID(GUIId guiId)
+        {
+            this.guiId = guiId;
         }
 
         #endregion
