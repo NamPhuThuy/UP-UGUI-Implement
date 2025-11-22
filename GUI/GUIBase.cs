@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace NamPhuThuy.UI
 {
-    public class GUIBase : MonoBehaviour
+    public partial class GUIBase : MonoBehaviour
     {
         public enum Type
         {
@@ -234,11 +234,13 @@ namespace NamPhuThuy.UI
 
         protected void TriggerOnShow()
         {
+            Debug.Log(message:$"GUIBase.TriggerOnShow()");
             OnShow?.Invoke();
         }
 
         protected void TriggerOnHide()
         {
+            Debug.Log(message:$"GUIBase.TriggerOnHide()");
             OnHide?.Invoke();
         }
 
