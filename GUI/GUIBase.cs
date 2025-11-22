@@ -27,6 +27,8 @@ namespace NamPhuThuy.UI
             GUI_LEVEL_TRANSITION = 6,
             GUI_LOSE_HEART_WARNING = 7,
             GUI_RATING = 8,
+            GUI_NOT_ENOUGH_COIN = 9,
+            GUI_REWARD_EARN = 10,
             
             GUI_CHEAT = 99,
             
