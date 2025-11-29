@@ -2,7 +2,7 @@
 Github: https://github.com/NamPhuThuy
 */
 
-// using NamPhuThuy.Audio;
+using NamPhuThuy.Audio;
 using NamPhuThuy.Common;
 using UnityEditor;
 using UnityEngine;
@@ -16,8 +16,8 @@ namespace NamPhuThuy.UI
         #region Private Serializable Fields
         
         // [Header("Audio Clips")]
-        /*[SerializeField] private AudioEnum clickSound = AudioEnum.SFX_CONFIRM;
-        [SerializeField] private AudioEnum hoverSound = AudioEnum.SFX_HIT;*/
+        [SerializeField] private AudioEnum clickSound = AudioEnum.SFX_BUTTON_TAP;
+        [SerializeField] private AudioEnum hoverSound = AudioEnum.SFX_BUTTON_TAP;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace NamPhuThuy.UI
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            // AudioManager.Ins.Play(clickSound);
+            AudioManager.Ins.Play(clickSound);
         }
 
         public void OnPointerUp(PointerEventData eventData)
