@@ -252,7 +252,7 @@ namespace NamPhuThuy.UI
 
         #region Editor Methods
 
-        public void ResetValues()
+        public virtual void ResetValues()
         {
             showDuration = 0.4f;
             hideDuration = 0.4f;

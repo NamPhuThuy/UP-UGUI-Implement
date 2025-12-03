@@ -30,8 +30,6 @@ namespace NamPhuThuy.UI
         public bool isUseHoverFX = true;
         
         private RectTransform _rectTransform;
-        private float _changeY = 5.6f;
-        
         
         private Vector3 _originalLocalScale;
 
@@ -42,8 +40,9 @@ namespace NamPhuThuy.UI
             
             _originalLocalScale = this.transform.localScale;
         }
-        public void OnPointerUp(PointerEventData eventData)
+        public override void OnPointerUp(PointerEventData eventData)
         {
+            base.OnPointerUp(eventData);
             if (!isUseClickyFX) return;
             transform.localScale = _originalLocalScale;
              DOTween.Sequence().Append(transform.DOScale(_originalLocalScale, 0.15f))
@@ -53,12 +52,9 @@ namespace NamPhuThuy.UI
                  });
         }
 
-        
-        /*
-         If I made this method override: "public override void OnPointerDown", it wont active the onClick event of the Button when I click (UnityEditor context)
-         */
-        public void OnPointerDown(PointerEventData eventData)
+        public override void OnPointerDown(PointerEventData eventData)
         {
+            base.OnPointerDown(eventData);
             if (!isUseClickyFX) return;
             transform.localScale = _originalLocalScale * pointerClickScale;
             DOTween.Sequence()
@@ -69,13 +65,15 @@ namespace NamPhuThuy.UI
                 }));
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public override void OnPointerClick(PointerEventData eventData)
         {
+            base.OnPointerClick(eventData);
             HapticsHelper.MediumVibrate();
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        public override void OnPointerEnter(PointerEventData eventData)
         {
+            base.OnPointerEnter(eventData);
             if (!isUseClickyFX) return;
             if (!isUseHoverFX) return;
             
@@ -83,8 +81,9 @@ namespace NamPhuThuy.UI
             DOTween.Sequence().Append(transform.DOScale(_originalLocalScale * pointerHoverScale, 0.2f));
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        public override void OnPointerExit(PointerEventData eventData)
         {
+            base.OnPointerExit(eventData);
             if (!isUseClickyFX) return;
             if (!isUseHoverFX) return;
             
