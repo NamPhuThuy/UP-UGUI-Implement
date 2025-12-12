@@ -30,6 +30,7 @@ namespace NamPhuThuy.UI
             GUI_NOT_ENOUGH_COIN = 9,
             GUI_REWARD_EARN = 10,
             GUI_OFFER_GAME_OVER = 11,
+            GUI_TUTORIAL = 12,
             
             GUI_CHEAT = 99,
             
