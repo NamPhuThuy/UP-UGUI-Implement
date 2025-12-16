@@ -15,13 +15,15 @@ namespace NamPhuThuy
         
         public enum State
         {
-            OFF = 0,
-            ON = 1
+            NONE = 0,
+            OFF = 1,
+            ON = 2
         }
         #region Private Serializable Fields
 
         [Header("Flags")] 
         [SerializeField] private bool isChangeColor;
+        [SerializeField] private State currentState = State.NONE;
         
         [Header("Background")]
         [SerializeField] private Image backgroundImage;
@@ -37,11 +39,11 @@ namespace NamPhuThuy
         [SerializeField] private float moveDuration = 0.3f;
         [SerializeField] private Ease moveEase = Ease.OutQuad;
 
-        private State _currentState = State.OFF;
+        
         private Tween _fadeTween;
         private Tween _moveTween;
         
-        public State CurrentState => _currentState;
+        public State CurrentState => currentState;
 
         #endregion
 
@@ -68,13 +70,13 @@ namespace NamPhuThuy
         private void ApplyStateImmediate()
         {
             // Set overlay image (onStateImage) alpha based on state
-            float targetAlpha = _currentState == State.ON ? 1f : 0f;
+            float targetAlpha = currentState == State.ON ? 1f : 0f;
             Color onColor = onStateImage.color;
             onColor.a = targetAlpha;
             onStateImage.color = onColor;
 
             // Move indicator to correct position
-            indicator.anchoredPosition = _currentState == State.ON
+            indicator.anchoredPosition = currentState == State.ON
                 ? onTransform.anchoredPosition
                 : offTransform.anchoredPosition;
         }
@@ -82,9 +84,9 @@ namespace NamPhuThuy
         private void AnimateToState()
         {
             // Fade background
-            Color targetColor = _currentState == State.ON ? onStateImage.sprite.texture.GetPixel(100, 50) : backgroundImage.sprite.texture.GetPixel(100, 50);
+            Color targetColor = currentState == State.ON ? onStateImage.sprite.texture.GetPixel(100, 50) : backgroundImage.sprite.texture.GetPixel(100, 50);
             
-            int targetAlpha = _currentState == State.ON ? 1 : 0;
+            int targetAlpha = currentState == State.ON ? 1 : 0;
 
             _fadeTween = DOTween.Sequence()
                 .Append(onStateImage.DOFade(targetAlpha, fadeDuration))
@@ -106,7 +108,7 @@ namespace NamPhuThuy
             }            
 
             // Move indicator
-            Vector2 targetPosition = _currentState == State.ON ? onTransform.anchoredPosition : offTransform.anchoredPosition;
+            Vector2 targetPosition = currentState == State.ON ? onTransform.anchoredPosition : offTransform.anchoredPosition;
             _moveTween = indicator.DOAnchorPos(targetPosition, moveDuration).SetEase(moveEase).OnComplete((() =>
             {
                 
@@ -125,9 +127,9 @@ namespace NamPhuThuy
         
         public void SetState(State newState, bool immediate = false)
         {
-            if (_currentState == newState && !immediate) return;
+            if (currentState == newState && !immediate) return;
 
-            _currentState = newState;
+            currentState = newState;
 
             // Kill existing tweens
             _fadeTween?.Kill();
@@ -145,7 +147,7 @@ namespace NamPhuThuy
 
         public void ToggleState()
         {
-            SetState(_currentState == State.OFF ? State.ON : State.OFF);
+            SetState(currentState == State.OFF ? State.ON : State.OFF);
         }
         
         #endregion
