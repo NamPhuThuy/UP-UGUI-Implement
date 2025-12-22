@@ -4,10 +4,9 @@ Github: https://github.com/NamPhuThuy
 
 using UnityEngine;
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIImplement
 {
-    
-    public static class UIConst
+    public static partial class UGUIConst
     {
         public static Vector2 CANVAS_SIZE = new Vector2(1920, 1080);
         public const int SCROLL_VIEW_TEST_ITEM_NUM = 20;

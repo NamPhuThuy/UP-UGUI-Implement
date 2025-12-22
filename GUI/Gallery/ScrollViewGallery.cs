@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NamPhuThuy.UGUIImplement;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -79,9 +80,9 @@ namespace NamPhuThuy.UI
         public void InitContent()
         {
             UpdateSizesInfo(); //GET THE SIZES
-            UpdateContentSizeDelta(UIConst.SCROLL_VIEW_TEST_ITEM_NUM);
+            UpdateContentSizeDelta(UGUIConst.SCROLL_VIEW_TEST_ITEM_NUM);
 
-            for (int i = 0; i < UIConst.SCROLL_VIEW_TEST_ITEM_NUM; i++)
+            for (int i = 0; i < UGUIConst.SCROLL_VIEW_TEST_ITEM_NUM; i++)
             {
                 AddElement();   
             }

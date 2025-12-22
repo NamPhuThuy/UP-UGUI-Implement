@@ -2,6 +2,7 @@
 Github: https://github.com/NamPhuThuy
 */
 
+using NamPhuThuy.UGUIImplement;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,8 +34,8 @@ namespace NamPhuThuy.UI
             }
             else
             {
-                screenWidth = UIConst.CANVAS_SIZE.x;
-                screenHeight = UIConst.CANVAS_SIZE.y;
+                screenWidth = UGUIConst.CANVAS_SIZE.x;
+                screenHeight = UGUIConst.CANVAS_SIZE.y;
             }
 
             float screenAspect = screenWidth / screenHeight;
