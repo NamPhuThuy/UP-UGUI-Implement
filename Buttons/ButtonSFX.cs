@@ -2,15 +2,12 @@
 Github: https://github.com/NamPhuThuy
 */
 
-using NamPhuThuy.Audio;
-using NamPhuThuy.Common;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace NamPhuThuy.UI
 {
-    
     public class ButtonSFX : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
     {
         #region Private Serializable Fields
