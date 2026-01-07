@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -11,7 +12,7 @@ namespace NamPhuThuy.UI
     
     public class TweenHelper : MonoBehaviour
     {
-        public static void PopupScaleSquence(Transform objTransform)
+        public static void PopupScaleSquence(Transform objTransform, Action onComplete = null)
         {
             // Debug.Log($"TweenHelper: PopupScaleSquence - {objTransform.name}");
             objTransform.gameObject.SetActive(true);
@@ -22,10 +23,11 @@ namespace NamPhuThuy.UI
             Sequence seq = DOTween.Sequence();
             seq.Append(objTransform.DOScale(originalScale * 1.2f, 0.3f));
             seq.Append(objTransform.DOScale(originalScale * .8f, 0.3f));
-            seq.Append(objTransform.DOScale(originalScale, 0.3f));
+            seq.Append(objTransform.DOScale(originalScale, 0.3f))
+                .OnComplete(() => onComplete?.Invoke());
         }
         
-        public static void PopupScaleSquence(Transform objTransform, float targetScale)
+        public static void PopupScaleSquence(Transform objTransform, float targetScale, Action onComplete = null)
         {
             // Debug.Log($"TweenHelper: PopupScaleSquence - {objTransform.name}");
             objTransform.gameObject.SetActive(true);
@@ -36,7 +38,8 @@ namespace NamPhuThuy.UI
             Sequence seq = DOTween.Sequence();
             seq.Append(objTransform.DOScale(originalScale * 1.2f, 0.3f));
             seq.Append(objTransform.DOScale(originalScale * .8f, 0.3f));
-            seq.Append(objTransform.DOScale(originalScale, 0.3f));
+            seq.Append(objTransform.DOScale(originalScale, 0.3f))
+                .OnComplete(() => onComplete?.Invoke());
         }
 
         #region PUNCH
@@ -162,7 +165,7 @@ namespace NamPhuThuy.UI
         ///   yield return TweenHelper.DOScalePulseAndShrink(transform).WaitForCompletion();
         /// - On complete cleanup:
         ///   TweenHelper.DOScalePulseAndShrink(transform, loops: 3)
-        ///       .OnComplete(() =&gt; Destroy(gameObject));
+        ///       .OnComplete(() => Destroy(gameObject));
         /// </example>
         /// <returns></returns>
         public static Sequence DOScalePulseAndShrink(

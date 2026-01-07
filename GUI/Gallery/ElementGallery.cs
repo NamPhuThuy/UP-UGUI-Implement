@@ -1,9 +1,12 @@
-using System;
+/*using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -19,10 +22,14 @@ namespace NamPhuThuy.UI
         public Image contentImage;
         public RectTransform imageFrame;
         public TextMeshProUGUI pictureIdText;
-        
+        public Image animatedTag;
+
         [Header("Stats")]
         public int pictureId;
         // public PlayerPictureData.LikeState likeState;
+
+        [Header("Placeholder")]
+        [SerializeField] private CanvasGroup placeholder;
 
         [SerializeField] private Button pictureButton;
 
@@ -50,7 +57,24 @@ namespace NamPhuThuy.UI
 
         private void OnClickPicture()
         {
-            // GUIManager.Ins.ShowGUI(GUIManager.Ins.GUIPictureDetails, 0f, pictureId, GUIManager.Ins.GUIGallery.CurrentPictureIdList);
+            /*if (!DataManager.Ins.PictureDatas.allPictureDatas[pictureId].IsAvailable())
+            {
+                string message = VFXPopupTextMessage.VIDEO_DOWNLOADING;
+
+                if (Application.internetReachability == NetworkReachability.NotReachable)
+                {
+                    message = VFXPopupTextMessage.CHECK_INTERNET_TO_DOWNLOAD_VIDEO;
+                }
+
+                VFXManager.Ins.PlayAt(
+                    VFXType.POPUP_TEXT,
+                    message: message,
+                    initialParent: GUIManager.Ins.GUIGallery.transform);
+
+                return;
+            }
+
+            GUIManager.Ins.ShowGUI(GUIManager.Ins.GUIPictureDetails, 0f, pictureId, GUIManager.Ins.GUIGallery.CurrentPictureIdList);#1#
         }
 
         #endregion
@@ -65,7 +89,7 @@ namespace NamPhuThuy.UI
         {
             contentImage.FitImageToRectTransform(imageFrame);
         }
-        
+
         public void UpdatePictureIdText()
         {
             pictureIdText.text = $"{pictureId}";
@@ -77,6 +101,29 @@ namespace NamPhuThuy.UI
             pictureIdText.gameObject.SetActive(false);
         }
 
+        public void EnableAnimatedTag(bool isEnable)
+        {
+            animatedTag.gameObject.SetActive(isEnable);
+        }
+
+        public void ShowPlaceholder()
+        {
+            placeholder.gameObject.SetActive(true);
+        }
+
+        public void HidePlaceholderImmediately()
+        {
+            placeholder.gameObject.SetActive(false);
+        }
+
+        public void HidePlaceholder()
+        {
+            placeholder.DOFade(0, duration: 0.3f).OnComplete(() =>
+            {
+                placeholder.gameObject.SetActive(false);
+            });
+        }
+
         #endregion
     }
-}
+}*/

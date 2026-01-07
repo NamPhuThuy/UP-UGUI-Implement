@@ -191,6 +191,50 @@ namespace NamPhuThuy.UI
             TriggerOnHide();
         }
 
+        /// <summary>
+        /// Hides the GUI immediately without any animations.
+        /// </summary>
+        public virtual void HideFast(params object[] parameters)
+        {
+            // Kill all running tweens to prevent them from interfering
+            if (showTweens.Count > 0)
+            {
+                foreach (var tween in showTweens)
+                {
+                    tween.Kill();
+                }
+                showTweens.Clear();
+            }
+            
+            if (hideTweens.Count > 0)
+            {
+                foreach (var tween in hideTweens)
+                {
+                    tween.Kill();
+                }
+                hideTweens.Clear();
+            }
+
+            if (_sequences.Count > 0)
+            {
+                foreach (var tween in _sequences)
+                {
+                    tween.Kill();
+                }
+                _sequences.Clear();
+            }
+
+            // Immediately set the final state without animation
+            if (canvasGroup != null)
+            {
+                canvasGroup.interactable = false;
+            }
+
+            transform.gameObject.SetActive(false);
+            
+            TriggerOnHide();
+        }
+
         public void SetGUIID(GUIId guiId)
         {
             this.guiId = guiId;

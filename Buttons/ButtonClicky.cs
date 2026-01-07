@@ -12,12 +12,15 @@ namespace NamPhuThuy.UI
 {
     public class ButtonClicky : Button, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
     {
+        [Header("Flags")] 
+        [SerializeField] private bool isActive = true;
+        
         [Header("Visual related")]
         [SerializeField] private Sprite defaultSprite;
         [SerializeField] private Sprite pressed;
-        
+
         private Image _image;
-        
+
         [Space(10)]
         [Header("Scales")]
         [SerializeField] private float pointerHoverScale = 1.1f;
