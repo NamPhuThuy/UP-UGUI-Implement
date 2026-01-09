@@ -13,7 +13,8 @@ namespace NamPhuThuy.UGUIImplement
         public enum Type
         {
             FULL_SCREEN = 0,
-            POP_UP = 1
+            POP_UP = 1,
+            NONE = 999
         }
         
         public enum GUIId
