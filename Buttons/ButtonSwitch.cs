@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIImplement
 {
     
     public class ButtonSwitch : MonoBehaviour

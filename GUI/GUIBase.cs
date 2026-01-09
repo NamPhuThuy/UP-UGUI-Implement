@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIImplement
 {
     public partial class GUIBase : MonoBehaviour
     {

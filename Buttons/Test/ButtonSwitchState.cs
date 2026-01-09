@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEditor;
 #endif
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIImplement
 {
     /// <summary>
     /// Multi-state button switch that can either:
