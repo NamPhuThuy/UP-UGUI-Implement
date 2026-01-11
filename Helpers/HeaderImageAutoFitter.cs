@@ -3,8 +3,6 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
 using Object = UnityEngine.Object;
 
 #if UNITY_EDITOR
@@ -22,10 +20,15 @@ namespace NamPhuThuy.UI
         [Header("Flags")]
         [SerializeField] private AnchorPreset anchor = AnchorPreset.TOP_CENTER;
         
-        [Header("Stats")]
-        [Range(0.05f, 1f)]
+        [Header("Height Limit")]
+        [Tooltip("Enable to limit maximum height based on screen/parent size")]
+        [SerializeField] private bool useMaxHeightLimit = true;
+        
+        [Tooltip("Maximum height as percentage of parent height (0.3 = 30% of screen)")]
+        [Range(0.1f, 1f)]
         [SerializeField] private float maxHeightPercent = 0.3f;
         
+        [Header("Stats")]
         [Tooltip("Extra pixels added to width and height.")]
         [SerializeField] private float padding = 0f;
 
@@ -35,7 +38,7 @@ namespace NamPhuThuy.UI
         [SerializeField] private RectTransform selfRect;
         [SerializeField] private Image selfImage;
 
-        #region MonoBeviour Callbacks
+        #region MonoBehaviour Callbacks
 
         private void Awake()
         {
@@ -102,22 +105,29 @@ namespace NamPhuThuy.UI
             if (parentRect == null || selfImage == null || selfImage.sprite == null) return;
 
             Vector2 parentSize = parentRect.rect.size;
-            float maxH = Mathf.Clamp01(maxHeightPercent) * parentSize.y;
-
             var spr = selfImage.sprite;
             float spriteAspect = spr.rect.width / spr.rect.height;
 
-            // Fit to parent width first
+            // ALWAYS fit width to parent width first
             float width = parentSize.x;
+            
+            // Calculate height based on sprite aspect ratio
             float height = width / spriteAspect;
 
-            // Clamp by max height while preserving aspect
-            if (height > maxH)
+            // Apply max height limit if enabled
+            if (useMaxHeightLimit)
             {
-                height = maxH;
-                width = height * spriteAspect;
+                float maxHeight = Mathf.Clamp01(maxHeightPercent) * parentSize.y;
+                
+                if (height > maxHeight)
+                {
+                    height = maxHeight;
+                    // Recalculate width to maintain aspect ratio
+                    width = height * spriteAspect;
+                }
             }
 
+            // Apply padding
             selfRect.sizeDelta = new Vector2(width, height) + Vector2.one * padding;
         }
     }
@@ -131,10 +141,15 @@ namespace NamPhuThuy.UI
         private static bool s_AutoFit;
 
         private SerializedProperty _anchorProp;
+        private SerializedProperty _useMaxHeightLimitProp;
+        private SerializedProperty _maxHeightPercentProp;
 
         private void OnEnable()
         {
             _anchorProp = serializedObject.FindProperty("anchor");
+            _useMaxHeightLimitProp = serializedObject.FindProperty("useMaxHeightLimit");
+            _maxHeightPercentProp = serializedObject.FindProperty("maxHeightPercent");
+            
             EditorApplication.update -= AutoFitTick;
             EditorApplication.update += AutoFitTick;
         }
@@ -151,6 +166,28 @@ namespace NamPhuThuy.UI
             EditorGUI.BeginChangeCheck();
             DrawDefaultInspector();
 
+            // Show info box based on settings
+            EditorGUILayout.Space();
+            if (_useMaxHeightLimitProp.boolValue)
+            {
+                float percent = _maxHeightPercentProp.floatValue * 100f;
+                EditorGUILayout.HelpBox(
+                    $"Image will fit to full parent width, but height is limited to {percent:F0}% of parent height.\n" +
+                    "If height exceeds limit, width will be reduced to maintain aspect ratio.",
+                    MessageType.Info
+                );
+            }
+            else
+            {
+                EditorGUILayout.HelpBox(
+                    "Image will always fit to full parent width.\n" +
+                    "Height is unlimited and calculated from sprite aspect ratio.\n" +
+                    "⚠️ Warning: Tall sprites may exceed screen bounds!",
+                    MessageType.Warning
+                );
+            }
+
+            EditorGUILayout.Space();
             s_AutoFit = EditorGUILayout.Toggle("Auto Fit (Edit Mode)", s_AutoFit);
 
             EditorGUILayout.BeginHorizontal();
