@@ -117,6 +117,9 @@ namespace NamPhuThuy.UGUIImplement
 
                     _sequences.Add(showSequence);
                     break;
+                case Type.NONE:
+                    gameObject.SetActive(false);
+                    break;
             }
 
 
@@ -185,6 +188,20 @@ namespace NamPhuThuy.UGUIImplement
 
                     // hideTweens.Add(canvasGroup.transform.DOScale(Vector3.zero, hideDuration).SetEase(Ease.OutQuad).OnComplete(() => transform.gameObject.SetActive(false)));
                     break;
+                case Type.NONE:
+                    
+                    if (canvasGroup == null)
+                    {
+                        transform.gameObject.SetActive(false);
+                        break;
+                    }
+                    
+                    hideTweens.Add(canvasGroup.DOFade(0, hideDuration).SetEase(Ease.OutQuad).OnComplete(() =>
+                    {
+                        canvasGroup.interactable = false;
+                        transform.gameObject.SetActive(false);
+                    }));
+                    break;
             }
 
 
@@ -247,25 +264,24 @@ namespace NamPhuThuy.UGUIImplement
 
         private void PlayFullscreenShowAnimation()
         {
-            if (canvasGroup != null)
+            if (canvasGroup == null) return;
+            
+            canvasGroup.alpha = 1;
+
+            canvasGroup.alpha = 0f;
+
+            showTweens.Add(canvasGroup.DOFade(1, showDuration).SetEase(Ease.InOutSine));
+
+            canvasGroup.transform.localScale = Vector3.zero;
+
+            showTweens.Add(canvasGroup.transform.DOScale(1.05f, 0.7f * showDuration).SetEase(Ease.InOutSine).OnComplete(() =>
             {
-                canvasGroup.alpha = 1;
-
-                canvasGroup.alpha = 0f;
-
-                showTweens.Add(canvasGroup.DOFade(1, showDuration).SetEase(Ease.InOutSine));
-
-                canvasGroup.transform.localScale = Vector3.zero;
-
-                showTweens.Add(canvasGroup.transform.DOScale(1.05f, 0.7f * showDuration).SetEase(Ease.InOutSine).OnComplete(() =>
+                showTweens.Add(canvasGroup.transform.DOScale(1f, 0.3f * showDuration).SetEase(Ease.InOutSine).OnComplete(() =>
                 {
-                    showTweens.Add(canvasGroup.transform.DOScale(1f, 0.3f * showDuration).SetEase(Ease.InOutSine).OnComplete(() =>
-                    {
-                        canvasGroup.interactable = true;
-                        OnShowComplete?.Invoke();
-                    }));
+                    canvasGroup.interactable = true;
+                    OnShowComplete?.Invoke();
                 }));
-            }
+            }));
         }
 
         #endregion
