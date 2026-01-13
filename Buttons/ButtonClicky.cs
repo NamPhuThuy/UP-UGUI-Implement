@@ -31,16 +31,15 @@ namespace NamPhuThuy.UGUIImplement
         [Header("Flags")]
         public bool isUseClickyFX = true;
         public bool isUseHoverFX = true;
-        
+
         private RectTransform _rectTransform;
         
         private Vector3 _originalLocalScale;
 
-        protected override void Awake() 
+        protected override void Awake()
         {
             _image = GetComponent<Image>();
             _rectTransform = GetComponent<RectTransform>();
-            
             _originalLocalScale = this.transform.localScale;
         }
         public override void OnPointerUp(PointerEventData eventData)
@@ -93,12 +92,42 @@ namespace NamPhuThuy.UGUIImplement
             DOTween.Sequence().Append(transform.DOScale(_originalLocalScale, 0.2f));
         }
 
-        
+
         // detect and handle events when a pointer (e.g., mouse cursor or touch) moves over a UI element
         public void OnPointerMove(PointerEventData eventData)
         {
             // transform.localScale = localScaleOld * _pointerHoverScale;
         }
+
+        private void PlayAnimationOnClick()
+        {
+            if (!isActive) return;
+            if (_sequence != null)
+            {
+                _sequence.Complete();
+            }
+
+            _sequence = DOTween.Sequence();
+
+            _sequence.Append(transform.DOScale(1.15f * _originalLocalScale, 0.2f).SetEase(Ease.InOutSine));
+            _sequence.Append(transform.DOScale(_originalLocalScale, 0.1f).SetEase(Ease.InOutSine));
+        }
+
+        #region Public Methods
+
+        public void EnableButton()
+        {
+            isActive = true;
+        }
+        
+        public void DisableButton()
+        {
+            isActive = false;
+        }
+
+        #endregion
+
+        
     }
 
 #if UNITY_EDITOR
