@@ -33,30 +33,40 @@ namespace NamPhuThuy.UGUIImplement
         public bool isUseHoverFX = true;
 
         private RectTransform _rectTransform;
-        
+        private float _changeY = 5.6f;
+
+
         private Vector3 _originalLocalScale;
+        private Sequence _sequence;
+
+        #region MonoBehaviour Callbacks
 
         protected override void Awake()
         {
             _image = GetComponent<Image>();
             _rectTransform = GetComponent<RectTransform>();
+
             _originalLocalScale = this.transform.localScale;
         }
-        public override void OnPointerUp(PointerEventData eventData)
+        
+
+        #endregion
+        public void OnPointerUp(PointerEventData eventData)
         {
-            base.OnPointerUp(eventData);
             if (!isUseClickyFX) return;
             transform.localScale = _originalLocalScale;
-             DOTween.Sequence().Append(transform.DOScale(_originalLocalScale, 0.15f))
-                 .OnComplete(() =>
-                 {
-                     // _image.sprite = _default;
-                 });
+            DOTween.Sequence().Append(transform.DOScale(_originalLocalScale, 0.15f))
+                .OnComplete(() =>
+                {
+                    // _image.sprite = _default;
+                });
         }
 
-        public override void OnPointerDown(PointerEventData eventData)
+        /*
+         If I made this method override: "public override void OnPointerDown", it wont active the onClick event of the Button when I click (UnityEditor context)
+         */
+        public void OnPointerDown(PointerEventData eventData)
         {
-            base.OnPointerDown(eventData);
             if (!isUseClickyFX) return;
             transform.localScale = _originalLocalScale * pointerClickScale;
             DOTween.Sequence()
@@ -67,28 +77,27 @@ namespace NamPhuThuy.UGUIImplement
                 }));
         }
 
-        public override void OnPointerClick(PointerEventData eventData)
+        public void OnPointerClick(PointerEventData eventData)
         {
-            base.OnPointerClick(eventData);
             HapticsHelper.MediumVibrate();
         }
 
-        public override void OnPointerEnter(PointerEventData eventData)
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            base.OnPointerEnter(eventData);
-            if (!isUseClickyFX) return;
-            if (!isUseHoverFX) return;
-            
-            
+            PlayAnimationOnClick();
+
+            // if (!isUseClickyFX) return;
+            // if (!isUseHoverFX) return;
+
+
             DOTween.Sequence().Append(transform.DOScale(_originalLocalScale * pointerHoverScale, 0.2f));
         }
 
-        public override void OnPointerExit(PointerEventData eventData)
+        public void OnPointerExit(PointerEventData eventData)
         {
-            base.OnPointerExit(eventData);
             if (!isUseClickyFX) return;
             if (!isUseHoverFX) return;
-            
+
             DOTween.Sequence().Append(transform.DOScale(_originalLocalScale, 0.2f));
         }
 

@@ -118,11 +118,9 @@ namespace NamPhuThuy.UGUIImplement
                     _sequences.Add(showSequence);
                     break;
                 case Type.NONE:
-                    gameObject.SetActive(false);
+                    gameObject.SetActive(true);
                     break;
             }
-
-
         }
 
         public virtual void Hide(params object[] parameters)
