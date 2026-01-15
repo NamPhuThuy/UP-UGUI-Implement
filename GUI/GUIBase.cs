@@ -111,6 +111,8 @@ namespace NamPhuThuy.UGUIImplement
                         () =>
                         {
                             // Play Audio
+                            gameObject.SetActive(true);
+                            Debug.Log(message:$"[{name}] SetActive(true)");
                             OnShowComplete?.Invoke();
                         }))
                     );
@@ -119,6 +121,9 @@ namespace NamPhuThuy.UGUIImplement
                     break;
                 case Type.NONE:
                     gameObject.SetActive(true);
+                    canvasGroup.interactable = true;
+                    canvasGroup.alpha = 1;
+                    Debug.Log(message:$"[{name}] SetActive(true)");
                     break;
             }
         }
@@ -130,6 +135,7 @@ namespace NamPhuThuy.UGUIImplement
                 foreach (var tween in showTweens)
                 {
                     tween.Kill();
+                    
                 }
 
                 showTweens.Clear();
@@ -156,6 +162,7 @@ namespace NamPhuThuy.UGUIImplement
                     if (canvasGroup == null)
                     {
                         transform.gameObject.SetActive(false);
+                        Debug.Log(message:$"[{name}] SetActive(false)");
                         break;
                     }
 
@@ -163,12 +170,14 @@ namespace NamPhuThuy.UGUIImplement
                     {
                         canvasGroup.interactable = false;
                         transform.gameObject.SetActive(false);
+                        Debug.Log(message:$"[{name}] SetActive(false)");
                     }));
                     break;
                 case Type.POP_UP:
                     if (canvasGroup == null)
                     {
                         transform.gameObject.SetActive(false);
+                        Debug.Log(message:$"[{name}] SetActive(false)");
                         break;
                     }
 
@@ -179,7 +188,11 @@ namespace NamPhuThuy.UGUIImplement
                             hideTweens.Add(canvasGroup.transform.DOScale(0.5f * Vector3.one, 0.5f * hideDuration).SetEase(Ease.OutQuad));
                             hideTweens.Add(
                                 canvasGroup.DOFade(0, 0.5f * hideDuration).SetEase(Ease.OutQuad)
-                                .OnComplete(() => transform.gameObject.SetActive(false))
+                                .OnComplete(() =>
+                                {
+                                    transform.gameObject.SetActive(false);
+                                    Debug.Log(message:$"[{name}] SetActive(false)");
+                                })
                             );
                         })
                     );
@@ -191,6 +204,7 @@ namespace NamPhuThuy.UGUIImplement
                     if (canvasGroup == null)
                     {
                         transform.gameObject.SetActive(false);
+                        Debug.Log(message:$"[{name}] SetActive(false)");
                         break;
                     }
                     
@@ -198,6 +212,7 @@ namespace NamPhuThuy.UGUIImplement
                     {
                         canvasGroup.interactable = false;
                         transform.gameObject.SetActive(false);
+                        Debug.Log(message:$"[{name}] SetActive(false)");
                     }));
                     break;
             }
@@ -277,6 +292,8 @@ namespace NamPhuThuy.UGUIImplement
                 showTweens.Add(canvasGroup.transform.DOScale(1f, 0.3f * showDuration).SetEase(Ease.InOutSine).OnComplete(() =>
                 {
                     canvasGroup.interactable = true;
+                    gameObject.SetActive(true);
+                    Debug.Log(message:$"[{name}] SetActive(true)");
                     OnShowComplete?.Invoke();
                 }));
             }));

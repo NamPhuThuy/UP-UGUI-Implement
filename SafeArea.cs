@@ -1,77 +1,118 @@
+
 using UnityEngine;
 
 /* HOW TO USE
  Add this script to the parent object of all content in a UI-screen/popup to adjust the content in the safe-area 
  */
-namespace NamPhuThuy.UI
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+namespace NamPhuThuy.UGUIImplement
 {
     public class SafeArea : MonoBehaviour
-{
-    [SerializeField] private Canvas canvas;
-
-    private void Start()
     {
-        AdjustToSafeArea();
-    }
+        [SerializeField] private Canvas canvas;
+        [SerializeField] private RectTransform rectTransform;
 
-    private void OnValidate()
-    {
-        // AdjustToSafeArea();
-    }
+        #region MonoBehaviour Callbacks
 
-    private void AdjustToSafeArea()
-    {
-        RectTransform uiElement = GetComponent<RectTransform>();
-
-        Rect safeArea = Screen.safeArea;
-
-        if (canvas == null)
+        private void Awake()
         {
-            canvas = uiElement.GetComponentInParent<Canvas>();
+            AdjustToSafeArea();
         }
 
-        if (canvas == null)
+        void OnEnable()
         {
-            return;
+            AdjustToSafeArea();
         }
 
-        Vector2 safeAreaMin = safeArea.position;
-        Vector2 safeAreaMax = safeArea.position + safeArea.size;
+        private void OnValidate()
+        {
+            // AdjustToSafeArea();
+        }
+        
 
-        Vector2 minAnchor = new Vector2(safeAreaMin.x / canvas.pixelRect.width, safeAreaMin.y / canvas.pixelRect.height);
-        Vector2 maxAnchor = new Vector2(safeAreaMax.x / canvas.pixelRect.width, safeAreaMax.y / canvas.pixelRect.height);
+        #endregion
 
-        uiElement.anchorMin = minAnchor;
-        uiElement.anchorMax = maxAnchor;
+        #region Public Methods
 
-        uiElement.offsetMin = Vector2.zero;
-        uiElement.offsetMax = Vector2.zero;
+        public void EnsureFillComponents()
+        {
+            if (rectTransform == null)
+            {
+                rectTransform = GetComponent<RectTransform>();
+            }
+
+            if (canvas == null)
+            {
+                canvas = rectTransform.GetComponentInParent<Canvas>();
+            }
+        }
+
+        #endregion
+        
+        public void AdjustToSafeArea()
+        {
+
+            EnsureFillComponents();
+            Rect safeArea = Screen.safeArea;
+       
+            Vector2 safeAreaMin = safeArea.position;
+            Vector2 safeAreaMax = safeArea.position + safeArea.size;
+
+            Vector2 minAnchor = new Vector2(safeAreaMin.x / canvas.pixelRect.width, safeAreaMin.y / canvas.pixelRect.height);
+            Vector2 maxAnchor = new Vector2(safeAreaMax.x / canvas.pixelRect.width, safeAreaMax.y / canvas.pixelRect.height);
+
+            rectTransform.anchorMin = minAnchor;
+            rectTransform.anchorMax = maxAnchor;
+
+            rectTransform.offsetMin = Vector2.zero;
+            rectTransform.offsetMax = Vector2.zero;
+        }
     }
 
-    // void AdjustToSafeArea()
-    // {
-    //     RectTransform uiElement = GetComponent<RectTransform>();
+#if UNITY_EDITOR
+    [CustomEditor(typeof(SafeArea))]
+    public class SafeAreaEditor : Editor
+    {
+        private SafeArea _script;
+        private void OnEnable()
+        {
+            _script = (SafeArea)target;
+        }
 
-    //     Rect safeArea = Screen.safeArea;
-    //     Canvas canvas = uiElement.GetComponentInParent<Canvas>();
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+            serializedObject.Update();
 
-    //     Vector2 safeAreaMin = safeArea.position;
-    //     Vector2 safeAreaMax = safeArea.position + safeArea.size;
+         
 
-    //     Vector2 safeAreaSize = safeArea.size / canvas.transform.localScale.x;
+            EditorGUILayout.Space();
 
-    //     Vector2 screenSize = canvas.GetComponent<RectTransform>().sizeDelta;
+            // Add a prominent button to trigger the adjustment
+            if (GUILayout.Button("Adjust to Safe Area Now", GUILayout.Height(30)))
+            {
+                _script.AdjustToSafeArea();
+            }
 
-    //     Vector2 localPosition = new Vector2(
-    //         (safeAreaMin.x + safeAreaMax.x) * 0.5f - screenSize.x * 0.5f,
-    //         (safeAreaMin.y + safeAreaMax.y) * 0.5f - screenSize.y * 0.5f
-    //     );
+            if (GUILayout.Button("Ensure Fill Components"))
+            {
+                _script.EnsureFillComponents();
+            }
 
-    //     Debug.Log(safeArea.center + "/" + safeArea.position + "/" + safeArea.y);
+            EditorGUILayout.Space();
 
-    //     uiElement.localPosition = localPosition;
+            // Display a helpful explanation for the user
+            EditorGUILayout.HelpBox(
+                "In the standard Editor Game view, Screen.safeArea returns the full screen size. " +
+                "To test on devices with notches (like iPhones), use the 'Device Simulator' (Window > General > Device Simulator).",
+                MessageType.Info);
 
-    //     uiElement.sizeDelta = safeAreaSize;
-    // }
-}
+            // Apply any changes made in the inspector
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+#endif
 }
