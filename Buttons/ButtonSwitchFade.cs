@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEditor;
 #endif
 
-namespace NamPhuThuy
+namespace NamPhuThuy.UGUIImplement
 {
     
     public class ButtonSwitchFade : MonoBehaviour
@@ -44,24 +44,6 @@ namespace NamPhuThuy
         private Tween _moveTween;
         
         public State CurrentState => currentState;
-
-        #endregion
-
-        #region Private Fields
-
-        #endregion
-
-        #region MonoBehaviour Callbacks
-
-        void Start()
-        {
-            
-        }
-
-        void Update()
-        {
-            
-        }
 
         #endregion
 
