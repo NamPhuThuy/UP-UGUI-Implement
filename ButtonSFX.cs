@@ -2,19 +2,20 @@
 Github: https://github.com/NamPhuThuy
 */
 
+using NamPhuThuy.AudioManage;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIImplement
 {
     public class ButtonSFX : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler
     {
         #region Private Serializable Fields
         
         // [Header("Audio Clips")]
-        [SerializeField] private AudioEnum clickSound = AudioEnum.SFX_BUTTON_TAP;
-        [SerializeField] private AudioEnum hoverSound = AudioEnum.SFX_BUTTON_TAP;
+        [SerializeField] private AudioEnum clickSound = AudioEnum.SFX_CONFIRM;
+        [SerializeField] private AudioEnum hoverSound = AudioEnum.SFX_HIT;
 
         #endregion
 
@@ -48,8 +49,8 @@ namespace NamPhuThuy.UI
 
         public void ResetValues()
         {
-            /*clickSound = AudioEnum.SFX_CONFIRM;
-            hoverSound = AudioEnum.SFX_HIT;*/
+            clickSound = AudioEnum.SFX_CONFIRM;
+            hoverSound = AudioEnum.SFX_HIT;
         }
 
         #endregion
