@@ -49,6 +49,7 @@ namespace NamPhuThuy.UGUIImplement
         [Header("Components")]
         [SerializeField] private Image guiMask;
         [SerializeField] private CanvasGroup canvasGroup;
+        public CanvasGroup CanvasGroup => canvasGroup;
 
         [Header("Behaviour")]
         private List<Tween> showTweens = new List<Tween>();
