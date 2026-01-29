@@ -3,6 +3,7 @@ Github: https://github.com/NamPhuThuy
 Supports: ScreenSpace-Overlay, ScreenSpace-Camera, WorldSpace
 */
 
+using NamPhuThuy.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,92 +11,14 @@ namespace NamPhuThuy.UGUIImplement
 {
     public static class ImageExtension
     {
-
-        public static void FitImageToRectTransformScreenSpaceCamera(
-            this Image image, 
-            RectTransform targetRect = null, 
-            ImageFitMode fitMode = ImageFitMode.CONTAIN)
-        {
-            if (image == null || image.sprite == null)
-            {
-                Debug.LogWarning("[ImageExtension] Image or sprite is null!");
-                return;
-            }
-
-            RectTransform imageRect = image.rectTransform;
-
-            // Get image dimensions from sprite
-            float imageWidth = image.sprite.rect.width;
-            float imageHeight = image.sprite.rect.height;
-            float imageRectWidth = image.rectTransform.sizeDelta.x;
-            float imageRectHeight = image.rectTransform.sizeDelta.y;
-
-            // Get target dimensions (properly handles ScreenSpace-Camera)
-            Vector2 targetSize = GetTargetSize(image, targetRect);
-            float targetWidth = targetSize.x;
-            float targetHeight = targetSize.y;
-
-            // Calculate scale ratios
-            float widthRatio = targetWidth / imageWidth;
-            float heightRatio = targetHeight / imageHeight;
-            
-            Debug.Log(message:$"witdhRatio: {widthRatio}, heightRatio: {heightRatio}");
-
-            float finalWidth;
-            float finalHeight;
-            float selectedRatio;
-
-            // Choose scale based on fit mode
-            if (fitMode == ImageFitMode.CONTAIN)
-            {
-                // Fit inside: Use smaller ratio (ensures entire image fits)
-                selectedRatio = Mathf.Min(widthRatio, heightRatio);
-                
-                finalWidth = imageWidth * selectedRatio;
-                finalHeight = imageHeight * selectedRatio;
-                
-                /*finalWidth = imageRectWidth * selectedRatio;
-                finalHeight = imageRectHeight * selectedRatio;*/
-            }
-            else if (fitMode == ImageFitMode.COVER)
-            {
-                // Fill completely: Use larger ratio (ensures no empty space)
-                selectedRatio = Mathf.Max(widthRatio, heightRatio);
-                
-                finalWidth = imageWidth * selectedRatio;
-                finalHeight = imageHeight * selectedRatio;
-                
-                /*finalWidth = imageRectWidth * selectedRatio;
-                finalHeight = imageRectHeight * selectedRatio;*/
-            }
-            else // ImageFitMode.Stretch
-            {
-                // Stretch to fill (ignore aspect ratio)
-                finalWidth = targetWidth;
-                finalHeight = targetHeight;
-            }
-
-            Debug.Log(message:$"Before imageRect.sizeDelta: {imageRect.sizeDelta}");
-            
-            // Apply size
-            imageRect.sizeDelta = new Vector2(finalWidth, finalHeight);
-            
-            Debug.Log(message:$"After imageRect.sizeDelta: {imageRect.sizeDelta}");
-            Debug.Log(message:$"finalWidth: {finalWidth}, finalHeight: {finalHeight}");
-            
-            // Center the image
-            imageRect.anchoredPosition = Vector2.zero;
-            
-            image.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            image.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            image.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-        }
-
+        // Need to pass the rectTransform of the image's parent gameObject
         public static void FitImageToRectTransformScreenSpaceOverlay(
             this Image image, 
             RectTransform targetRect = null, 
             ImageFitMode fitMode = ImageFitMode.CONTAIN)
         {
+            // return;
+            DebugLogger.Log();
             if (image.sprite == null)
             {
                 return;
@@ -152,7 +75,7 @@ namespace NamPhuThuy.UGUIImplement
         /// <param name="image">The Image component to fit</param>
         /// <param name="targetRect">Target RectTransform to fit into. If null, uses canvas size.</param>
         /// <param name="fitMode">How to fit: Contain (fit inside) or Cover (fill completely)</param>
-        public static void FitImageToRectTransform(
+        public static void FitImageToRectTransformScreenSpaceCamera(
             this Image image, 
             RectTransform targetRect = null, 
             ImageFitMode fitMode = ImageFitMode.CONTAIN)
@@ -489,7 +412,7 @@ public class ScreenSpaceCameraExamples : MonoBehaviour
         // - Match: 0.5 (balance width/height)
         
         // Background image will fill the reference resolution
-        backgroundImage.FitImageToRectTransform(null, ImageFitMode.COVER);
+        backgroundImage.FitImageToRectTransformScreenSpaceCamera(null, ImageFitMode.COVER);
         
         // Result: Image fills 1920x1080 (reference resolution)
         // Actual screen (e.g., 2560x1440) is handled by Canvas Scaler
@@ -526,7 +449,7 @@ public class ScreenSpaceCameraExamples : MonoBehaviour
         // Avatar image: 512x512 (square photo)
         
         // Fill the container (crop to circle later with mask)
-        avatarImage.FitImageToRectTransform(avatarContainer, ImageFitMode.COVER);
+        avatarImage.FitImageToRectTransformScreenSpaceCamera(avatarContainer, ImageFitMode.COVER);
         
         // Result: 200x200 (perfect fit for square images)
     }
@@ -541,7 +464,7 @@ public class ScreenSpaceCameraExamples : MonoBehaviour
         // - Tablet (4:3): 1536x2048
         // - Desktop (16:9): 1920x1080
         
-        backgroundImage.FitImageToRectTransform(null, ImageFitMode.COVER);
+        backgroundImage.FitImageToRectTransformScreenSpaceCamera(null, ImageFitMode.COVER);
         
         // Canvas Scaler handles the scaling automatically
         // Image always fills the reference resolution
@@ -561,7 +484,7 @@ public class ScreenSpaceCameraExamples : MonoBehaviour
         Debug.Log($"Screen Size: {backgroundImage.GetActualScreenSize()}");
         
         // Fit background
-        backgroundImage.FitImageToRectTransform(null, ImageFitMode.COVER);
+        backgroundImage.FitImageToRectTransformScreenSpaceCamera(null, ImageFitMode.COVER);
     }
 }
 
