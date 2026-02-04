@@ -40,8 +40,8 @@ namespace NamPhuThuy.UGUIImplement
             }
             else
             {
-                screenWidth = UGUIConst.CANVAS_SIZE.x;
-                screenHeight = UGUIConst.CANVAS_SIZE.y;
+                screenWidth = UGUIConst.CANVAS_SIZE_MOBILE.x;
+                screenHeight = UGUIConst.CANVAS_SIZE_MOBILE.y;
             }
 
             float screenAspect = screenWidth / screenHeight;
@@ -171,7 +171,7 @@ namespace NamPhuThuy.UGUIImplement
             if (canvas == null)
             {
                 Debug.LogWarning("[ImageExtension] No Canvas found! Using default size.");
-                return UGUIConst.CANVAS_SIZE;
+                return UGUIConst.CANVAS_SIZE_MOBILE;
             }
 
             RectTransform canvasRect = canvas.GetComponent<RectTransform>();
