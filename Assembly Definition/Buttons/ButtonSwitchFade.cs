@@ -28,11 +28,14 @@ namespace NamPhuThuy.UGUIImplement
         [Header("Background")]
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image onStateImage;
-
+        [SerializeField] private GameObject additionOnStateObj;
+        [SerializeField] private GameObject additionOffStateObj;
+        
+        
         [Header("Indicator")]
         [SerializeField] private RectTransform indicator;
-        [SerializeField] private RectTransform offTransform;
-        [SerializeField] private RectTransform onTransform;
+        [SerializeField] private RectTransform indicatorOffPivot;
+        [SerializeField] private RectTransform indicatorOnPivot;
 
         [Header("Animation Settings")]
         [SerializeField] private float fadeDuration = 0.3f;
@@ -59,8 +62,8 @@ namespace NamPhuThuy.UGUIImplement
 
             // Move indicator to correct position
             indicator.anchoredPosition = currentState == State.ON
-                ? onTransform.anchoredPosition
-                : offTransform.anchoredPosition;
+                ? indicatorOnPivot.anchoredPosition
+                : indicatorOffPivot.anchoredPosition;
         }
 
         private void AnimateToState()
@@ -89,12 +92,24 @@ namespace NamPhuThuy.UGUIImplement
                     });
             }            
 
+            additionOffStateObj?.SetActive(false);
+            additionOnStateObj?.SetActive(false);
+            
             // Move indicator
-            Vector2 targetPosition = currentState == State.ON ? onTransform.anchoredPosition : offTransform.anchoredPosition;
+            Vector2 targetPosition = currentState == State.ON ? indicatorOnPivot.anchoredPosition : indicatorOffPivot.anchoredPosition;
             _moveTween = indicator.DOAnchorPos(targetPosition, moveDuration).SetEase(moveEase).OnComplete((() =>
             {
-                
+                if (currentState == State.ON)
+                {
+                    additionOnStateObj?.SetActive(true);
+                }
+                else if (currentState == State.OFF)
+                {
+                    additionOffStateObj?.SetActive(true);
+                }
             }));
+            
+            
         }
 
         private void OnDestroy()

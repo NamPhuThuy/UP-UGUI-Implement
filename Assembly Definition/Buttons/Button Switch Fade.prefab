@@ -127,6 +127,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+  isActive: 1
   defaultSprite: {fileID: 0}
   pressed: {fileID: 0}
   pointerHoverScale: 1.1
@@ -147,13 +148,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isChangeColor: 0
+  currentState: 0
   backgroundImage: {fileID: 2340805307228162366}
   onStateImage: {fileID: 6477957843276816714}
-  offSprite: {fileID: 21300000, guid: fffef05ef316c374a8cb0c2cad096743, type: 3}
-  onSprite: {fileID: 21300000, guid: 3e99543d757f69848b03c605318e021c, type: 3}
+  additionOnStateObj: {fileID: 0}
+  additionOffStateObj: {fileID: 0}
   indicator: {fileID: 6826977960829465854}
-  offTransform: {fileID: 3692113221543759750}
-  onTransform: {fileID: 6431121366014102965}
+  indicatorOffPivot: {fileID: 3692113221543759750}
+  indicatorOnPivot: {fileID: 6431121366014102965}
   fadeDuration: 0.3
   moveDuration: 0.3
   moveEase: 6
@@ -169,6 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c28d449dd2d91e4ab5027e134069920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickSound: 15
+  hoverSound: 22
 --- !u!1 &1362449895952532255
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,13 +232,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 2430041439286226399, guid: 9899ea3d70a09674f8c6ee29a3fb8551, type: 3}
+  m_Sprite: {fileID: 2430041439286226399, guid: 9899ea3d70a09674f8c6ee29a3fb8551,
+    type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -303,7 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -378,7 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -490,7 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -640,7 +645,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
