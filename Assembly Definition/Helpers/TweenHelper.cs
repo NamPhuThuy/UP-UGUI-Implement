@@ -188,5 +188,116 @@ namespace NamPhuThuy.UGUIImplement
         
         #endregion
         
+        
+        public static Tweener OpenDropdown(RectTransform dropdown, CanvasGroup dropdownCanvasGroup)
+        {
+            dropdown.gameObject.SetActive(true);
+            dropdownCanvasGroup.interactable = false;
+
+            // Reset scale to start state
+            dropdown.localScale = new Vector3(1, 0, 1);
+
+            // We want to pivot from the top, so we calculate the top position
+            // However, changing pivot at runtime can be messy for layout groups.
+            // Instead, we can simulate the "slide down" effect by moving the position
+            // while scaling, effectively keeping the top edge fixed.
+
+            Vector3 initialLocalPos = dropdown.localPosition;
+            float height = dropdown.rect.height;
+            
+            // If pivot.y is 0.5 (center), the top edge is at y + height/2.
+            // When scale.y is 0, the center is at the same y.
+            // To keep top edge fixed, as scale grows from 0 to 1:
+            // At scale 0: center should be at (Top - 0) = Top
+            // At scale 1: center should be at (Top - height/2) = InitialPos
+            
+            // Let's assume the initial position is the correct "open" position.
+            // We calculate the top edge Y based on current pivot/anchors.
+            // For a standard center-pivot UI element:
+            float pivotOffset = (1f - dropdown.pivot.y) * height; 
+            // If pivot is 0.5, offset is 0.5 * height.
+            // If pivot is 1 (top), offset is 0.
+            
+            // The visual top of the rect in local space relative to its pivot is +pivotOffset.
+            // We want that visual top to stay fixed in parent space.
+            
+            // Actually, the previous implementation logic was:
+            // localPosition.y = topPosition - 0.5f * dropdown.sizeDelta.y * dropdown.localScale.y;
+            // This assumes pivot is 0.5. Let's generalize or stick to the working logic but cleaner.
+            
+            // Optimization: Use a single tween on a float (0 to 1) and update both scale and position.
+            // This avoids creating a separate OnUpdate delegate that captures variables every frame if possible,
+            // though DOTween handles this well.
+            
+            // Better approach: Just set the pivot to (0.5, 1) if possible? 
+            // If we can't change pivot, we simulate it.
+            
+            float topY = initialLocalPos.y + (1f - dropdown.pivot.y) * height;
+
+            return DOVirtual.Float(0f, 1f, 0.3f, (val) =>
+            {
+                // Scale Y
+                var s = dropdown.localScale;
+                s.y = val;
+                dropdown.localScale = s;
+
+                // Position Y to keep top fixed
+                // Current Height from pivot to top = (1 - pivot.y) * height * scaleY
+                // We want the top edge to be at `topY`.
+                // So pivot position = topY - (distance from pivot to top)
+                var p = dropdown.localPosition;
+                p.y = topY - (1f - dropdown.pivot.y) * height * val;
+                dropdown.localPosition = p;
+            })
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                dropdown.localScale = Vector3.one;
+                dropdown.localPosition = initialLocalPos;
+                dropdownCanvasGroup.interactable = true;
+            });
+        }
+
+        public static List<Tweener> HideDropdown(RectTransform dropdown, CanvasGroup dropdownCanvasGroup)
+        {
+            List<Tweener> tweeners = new List<Tweener>();
+            dropdownCanvasGroup.interactable = false;
+
+            // Fade out
+            tweeners.Add(dropdownCanvasGroup.DOFade(0, 0.15f));
+
+            Vector3 initialLocalPos = dropdown.localPosition;
+            float height = dropdown.rect.height;
+            float topY = initialLocalPos.y + (1f - dropdown.pivot.y) * height;
+
+            // Scale down
+            var scaleTween = DOVirtual.Float(1f, 0f, 0.3f, (val) =>
+            {
+                var s = dropdown.localScale;
+                s.y = val;
+                dropdown.localScale = s;
+
+                var p = dropdown.localPosition;
+                p.y = topY - (1f - dropdown.pivot.y) * height * val;
+                dropdown.localPosition = p;
+            })
+            .SetEase(Ease.InQuad)
+            .OnComplete(() =>
+            {
+                dropdown.gameObject.SetActive(false);
+                
+                // Reset for next open
+                dropdown.localScale = Vector3.one;
+                dropdown.localPosition = initialLocalPos;
+                dropdownCanvasGroup.alpha = 1f;
+                dropdownCanvasGroup.interactable = true;
+            });
+            
+            tweeners.Add(scaleTween);
+
+            return tweeners;
+        }
     }
+    
+    
 }
