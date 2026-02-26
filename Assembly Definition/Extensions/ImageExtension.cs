@@ -25,18 +25,21 @@ namespace NamPhuThuy.UGUIImplement
             }
 
             RectTransform rt = image.rectTransform;
-
-            float imageWidth = image.sprite.rect.width;
-            float imageHeight = image.sprite.rect.height;
-            float imageAspect = imageWidth / imageHeight;
+            float imageAspect = image.sprite.rect.width / image.sprite.rect.height;
 
             float screenWidth;
             float screenHeight;
 
             if (targetRect != null)
             {
-                screenWidth = targetRect.sizeDelta.x;
-                screenHeight = targetRect.sizeDelta.y;
+                // This is wrong if targetRect has stretch anchors.
+                // Because sizeDelta is not the final size when stretching.
+                /*screenWidth = targetRect.sizeDelta.x;
+                screenHeight = targetRect.sizeDelta.y;*/
+
+
+                screenWidth = targetRect.rect.width;
+                screenHeight = targetRect.rect.height;
             }
             else
             {
@@ -65,7 +68,8 @@ namespace NamPhuThuy.UGUIImplement
             }
 
             rt.sizeDelta = new Vector2(targetWidth, targetHeight);
-            rt.localPosition = Vector2.zero + offset;
+            // rt.localPosition = Vector2.zero + offset;
+            rt.anchoredPosition = offset;
         }
         
         /// <summary>
