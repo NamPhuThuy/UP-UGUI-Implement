@@ -19,8 +19,7 @@ namespace NamPhuThuy.UGUIImplement
             yield return new WaitForEndOfFrame();
 
             RectTransform canvas = GetComponent<RectTransform>();
-
-            // GamePersistentVariable.canvasSize = canvas.sizeDelta;
+            UGUIConst.CANVAS_SIZE_MOBILE = canvas.rect.size;
         }
     }
 
