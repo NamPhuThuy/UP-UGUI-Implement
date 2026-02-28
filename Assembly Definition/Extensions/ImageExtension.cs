@@ -3,7 +3,6 @@ Github: https://github.com/NamPhuThuy
 Supports: ScreenSpace-Overlay, ScreenSpace-Camera, WorldSpace
 */
 
-using NamPhuThuy.Common;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,8 +16,7 @@ namespace NamPhuThuy.UGUIImplement
             RectTransform targetRect = null, 
             ImageFitMode fitMode = ImageFitMode.CONTAIN)
         {
-            // return;
-            DebugLogger.Log();
+            Debug.Log(message:$"ImageExtension.FitImageToRectTransformScreenSpaceOverlay()");
             if (image.sprite == null)
             {
                 return;
