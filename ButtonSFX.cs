@@ -2,7 +2,7 @@
 Github: https://github.com/NamPhuThuy
 */
 
-using NamPhuThuy.AudioManage;
+// using NamPhuThuy.AudioManage;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -14,8 +14,8 @@ namespace NamPhuThuy.UGUIImplement
         #region Private Serializable Fields
         
         // [Header("Audio Clips")]
-        [SerializeField] private AudioEnum clickSound = AudioEnum.SFX_CONFIRM;
-        [SerializeField] private AudioEnum hoverSound = AudioEnum.SFX_HIT;
+        /*[SerializeField] private AudioEnum clickSound = AudioEnum.SFX_CONFIRM;
+        [SerializeField] private AudioEnum hoverSound = AudioEnum.SFX_HIT;*/
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace NamPhuThuy.UGUIImplement
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            AudioManager.Ins.Play(clickSound);
+            // AudioManager.Ins.Play(clickSound);
         }
 
         public void OnPointerUp(PointerEventData eventData)
@@ -49,8 +49,8 @@ namespace NamPhuThuy.UGUIImplement
 
         public void ResetValues()
         {
-            clickSound = AudioEnum.SFX_CONFIRM;
-            hoverSound = AudioEnum.SFX_HIT;
+            /*clickSound = AudioEnum.SFX_CONFIRM;
+            hoverSound = AudioEnum.SFX_HIT;*/
         }
 
         #endregion
@@ -67,7 +67,7 @@ namespace NamPhuThuy.UGUIImplement
             base.OnInspectorGUI();
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Reset Values", GUILayout.Width(InspectorConst.BUTTON_WIDTH_MEDIUM))) _script.ResetValues();
+            if (GUILayout.Button("Reset Values", GUILayout.Width(450))) _script.ResetValues();
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }

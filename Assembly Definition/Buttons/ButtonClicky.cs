@@ -79,7 +79,9 @@ namespace NamPhuThuy.UGUIImplement
 
         public void OnPointerClick(PointerEventData eventData)
         {
+#if USE_HAPTICS
             HapticsHelper.MediumVibrate();
+#endif
         }
 
         public void OnPointerEnter(PointerEventData eventData)
