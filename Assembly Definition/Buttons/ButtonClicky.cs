@@ -1,4 +1,5 @@
 using DG.Tweening;
+
 using UnityEditor;
 #if UNITY_EDITOR
 using UnityEditor.UI;
@@ -8,6 +9,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
+#if USE_HAPTICS
+using NamPhuThuy.Common;
+#endif
 namespace NamPhuThuy.UGUIImplement
 {
     public class ButtonClicky : Button, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler

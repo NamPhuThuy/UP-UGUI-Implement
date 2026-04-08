@@ -32,6 +32,7 @@ namespace NamPhuThuy.UGUIImplement
             GUI_REWARD_EARN = 10,
             GUI_OFFER_GAME_OVER = 11,
             GUI_TUTORIAL = 12,
+            GUI_NOTIFICATION = 13,
             
             GUI_CHEAT = 99,
             
