@@ -4,3 +4,4 @@ When setup UIs for mobile devices; Check for these standard screen ratio:
 
 # Notes
 Need scripting symbol "USE_HAPTICS" for ButtonClicky
+Need "USE_AUDIO" dor ButtonSFX

@@ -14,6 +14,7 @@ namespace NamPhuThuy.UGUIImplement
         
         // Time 
         public const float TRANSLATION_DELAY = 0.1f;
+        public const float FAKE_LOAD_DURATION = 4f;
     }
 
 }

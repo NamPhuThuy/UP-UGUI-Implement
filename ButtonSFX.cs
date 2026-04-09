@@ -2,7 +2,9 @@
 Github: https://github.com/NamPhuThuy
 */
 
-// using NamPhuThuy.AudioManage;
+#if USE_AUDIO
+using NamPhuThuy.AudioManage;
+#endif
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -67,7 +69,7 @@ namespace NamPhuThuy.UGUIImplement
             base.OnInspectorGUI();
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Reset Values", GUILayout.Width(450))) _script.ResetValues();
+            if (GUILayout.Button("Reset Values", GUILayout.Width(InspectorConst.BUTTON_WIDTH_MEDIUM))) _script.ResetValues();
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
