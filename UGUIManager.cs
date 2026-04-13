@@ -6,7 +6,10 @@ using MoreMountains.Tools;
 using NamPhuThuy.Common;
 using UnityEngine;
 using System.Linq;
+
+#if USE_LEAN_LOCALIZATION
 using Lean.Localization;
+#endif
 
 using NamPhuThuy.PuzzleTutorial;
 

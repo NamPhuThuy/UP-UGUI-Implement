@@ -2,11 +2,16 @@ using System.Collections;
 using Lean.Localization;
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
-using NamPhuThuy.IAPAdapter;
+
 using NamPhuThuy.Lean_Localization;
 using NamPhuThuy.UGUIImplement;
 using UnityEngine;
 using UnityEngine.UI;
+
+
+#if USE_UNITY_IAP
+using NamPhuThuy.IAPAdapter;
+#endif
 
 namespace NamPhuThuy
 {
@@ -28,13 +33,18 @@ namespace NamPhuThuy
 
         protected virtual void OnEnable()
         {
+#if USE_UNITY_IAP
             IAPManager.purchaseFlowFinishedEvent += OnPurchaseFlowFinished;
+#endif
             IsBuying = false;
         }
 
         protected virtual void OnDisable()
         {
+            
+#if USE_UNITY_IAP
             IAPManager.purchaseFlowFinishedEvent -= OnPurchaseFlowFinished;
+#endif
             IsBuying = false;
         }
 
@@ -63,7 +73,10 @@ namespace NamPhuThuy
             }
             IsBuying = true;
 
+            
+#if USE_UNITY_IAP
             IAPManager.Ins.BuyProduct(iapPackId);
+#endif
 
             // Safety timeout: reset flag if purchase flow never completes (e.g., store dialog dismissed by OS)
             if (_reEnableCoroutine != null) StopCoroutine(_reEnableCoroutine);

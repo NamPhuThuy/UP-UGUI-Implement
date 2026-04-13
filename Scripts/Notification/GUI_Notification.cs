@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using NamPhuThuy.AdNetworkAdapter;
+
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-
+#if USE_AD_NETWORKS
+using NamPhuThuy.AdNetworkAdapter;
+#endif
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -37,7 +39,9 @@ namespace NamPhuThuy.UGUIImplement
             titleText.text = (string)parameters[0];
             descriptionText.text = (string)parameters[1];
             
+#if USE_AD_NETWORKS
             AdsManager.Ins.Hide_MRec_MAX();
+#endif
         }
 
         public override void Hide(params object[] parameters)

@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Lean.Localization;
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using NamPhuThuy.DataManage;
+
+#if USE_LEAN_LOCALIZATION
 using NamPhuThuy.Lean_Localization;
+using Lean.Localization;
+#endif
 
 #if UNITY_EDITOR
 using UnityEditor;

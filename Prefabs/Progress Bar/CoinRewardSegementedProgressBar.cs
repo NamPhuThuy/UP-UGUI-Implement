@@ -5,10 +5,15 @@ using DG.Tweening;
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
 using NamPhuThuy.DataManage;
+
+#if USE_SPINE
 using Spine;
 using Spine.Unity;
+#endif
+
 using UnityEngine;
 using DebugLogger = NamPhuThuy.Common.DebugLogger;
+using Tween = PrimeTween.Tween;
 
 namespace NamPhuThuy.UGUIImplement
 {
@@ -16,8 +21,12 @@ namespace NamPhuThuy.UGUIImplement
     {
         #region GiftBox Animation
         [Header("Gift Animation")]
+
+#if USE_SPINE
         [SerializeField] private SkeletonGraphic giftSkeleton;
         public SkeletonGraphic GiftSkeleton => giftSkeleton; 
+#endif
+        
         [SerializeField] private RectTransform giftTargetPivot;
         [SerializeField] private float giftFlyDuration = 1f;
         private float pathCurveHeight = 1f;
@@ -37,7 +46,9 @@ namespace NamPhuThuy.UGUIImplement
             DebugLogger.Log();
             base.HandleRewardCompleted(onCompletedAction);
 
+#if USE_SPINE
             _giftInitialScale = giftSkeleton.transform.localScale;
+#endif
 
             StartCoroutine(IE_FlyTheGiftBox());
 
@@ -48,7 +59,10 @@ namespace NamPhuThuy.UGUIImplement
         {
             DebugLogger.Log();
             // Create path points for curved movement
-            Vector3 startPos = giftSkeleton.transform.position;
+            Vector3 startPos = Vector3.zero;
+#if USE_SPINE
+            startPos = giftSkeleton.transform.position;
+#endif
             Vector3 endPos = giftTargetPivot.position;
             Vector3 controlPoint = (startPos + endPos) / 2f + Vector3.up * pathCurveHeight;
             
@@ -71,6 +85,7 @@ namespace NamPhuThuy.UGUIImplement
             groupRewardProgress.transform.DOScale(0, duration: 0.3f);
 
             // Animate gift box along the path
+#if USE_SPINE
             bool flyComplete = false;
             giftSkeleton.transform
                 .DOPath(path, giftFlyDuration, PathType.CatmullRom)
@@ -85,8 +100,13 @@ namespace NamPhuThuy.UGUIImplement
 
             giftSkeleton.AnimationState.SetAnimation(0, AnimOpenString, false);
             giftSkeleton.AnimationState.Complete += OnCompleteOpen;
+#endif
+
+            yield return null;
         }
-        
+
+
+#if USE_SPINE
         void OnCompleteOpen(TrackEntry trackEntry)
         {
             DebugLogger.Log();
@@ -104,23 +124,23 @@ namespace NamPhuThuy.UGUIImplement
         {
             DebugLogger.Log();
             groupRewardProgress.gameObject.SetActive(true);
-            PrimeTween.Tween.Alpha(groupRewardProgress, 1f, 0.3f);
+            Tween.Alpha(groupRewardProgress, 1f, 0.3f);
             groupRewardProgress.transform.DOScale(1, duration: 0.3f);
 
             giftSkeleton.transform.DOScale(1.2f * giftSkeleton.transform.localScale, duration: 0.3f)
-            .OnComplete(() =>
-            {
-                giftSkeleton.transform.DOScale(0, 0.4f)
                 .OnComplete(() =>
                 {
-                    giftSkeleton.Skeleton.SetToSetupPose();
-                    giftSkeleton.AnimationState.ClearTrack(0);
+                    giftSkeleton.transform.DOScale(0, 0.4f)
+                        .OnComplete(() =>
+                        {
+                            giftSkeleton.Skeleton.SetToSetupPose();
+                            giftSkeleton.AnimationState.ClearTrack(0);
 
-                    giftSkeleton.transform.localScale = _giftInitialScale;
+                            giftSkeleton.transform.localScale = _giftInitialScale;
 
-                    giftSkeleton.gameObject.SetActive(false);
+                            giftSkeleton.gameObject.SetActive(false);
+                        });
                 });
-            });
             
             
 
@@ -162,12 +182,14 @@ namespace NamPhuThuy.UGUIImplement
                 onHandleRewardProgressCompleted?.Invoke();
             });
         }
+#endif
 
        
 
         public void SetGiftPosition()
         {
             DebugLogger.Log();
+#if USE_SPINE
             giftSkeleton.gameObject.SetActive(true);
 
             Vector3 giftPositon = giftSkeleton.transform.localPosition.ChangeX(
@@ -175,6 +197,7 @@ namespace NamPhuThuy.UGUIImplement
             );
 
             giftSkeleton.transform.localPosition = giftPositon;
+#endif
         }
     }
 }

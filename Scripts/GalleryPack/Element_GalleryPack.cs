@@ -282,8 +282,9 @@ namespace NamPhuThuy.UGUIImplement
         {
             bool isEnoughCoin = DataManager.Ins.PInventoryData.Coin >= TotalPrice;
 
-            AnalyticsAdapter.Log_Picture_TryBuy(DataManager.Ins.PProgressData.LevelId + 1, isEnoughCoin,
-                currentPackStyle.ToString());
+#if USE_FIREBASE_ANALYTICS
+            AnalyticsAdapter.Log_Picture_TryBuy(DataManager.Ins.PProgressData.LevelId + 1, isEnoughCoin, currentPackStyle.ToString());
+#endif
             
             if (!isEnoughCoin)
             {

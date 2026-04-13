@@ -1,18 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Lean.Localization;
+
 using NamPhuThuy.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using MoreMountains.Tools;
-using NamPhuThuy.AdNetworkAdapter;
+
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.DataManage;
 using NamPhuThuy.FirebaseAdapter;
-using NamPhuThuy.Lean_Localization;
+
 using DebugLogger = NamPhuThuy.Common.DebugLogger;
+
+#if USE_LEAN_LOCALIZATION
+using NamPhuThuy.Lean_Localization;
+using Lean.Localization;
+#endif
+
+#if USE_AD_NETWORKS
+using NamPhuThuy.AdNetworkAdapter;
+#endif
 
 
 #if UNITY_EDITOR
@@ -418,10 +427,14 @@ namespace NamPhuThuy.UGUIImplement
             {
                 yield return YieldHelper.WaitForSeconds(0.5f);
                 StartCoroutine(IEInterClose());
+               #if USE_AD_NETWORKS
                 AdsManager.Ins.TryShow_DoubleInter(OnInterClose);
+               #endif
             }
 
+            #if USE_FIREBASE_ANALYTICS
             AnalyticsAdapter.Log_LevelState(DataManager.Ins.PProgressData.LevelId + 1, AnalyticsConst.EVENT_LEVEL_RESTARTED);
+            #endif
         }
 
         private void OnClickBack()

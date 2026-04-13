@@ -5,17 +5,24 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Lean.Localization;
 using MoreMountains.Tools;
-using NamPhuThuy.AdNetworkAdapter;
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
 using UnityEngine.Video;
 using UnityEngine.Networking;
 using NamPhuThuy.DataManage;
 using NamPhuThuy.FirebaseAdapter;
-using NamPhuThuy.Lean_Localization;
 using DebugLogger = NamPhuThuy.Common.DebugLogger;
+
+
+#if USE_LEAN_LOCALIZATION
+using NamPhuThuy.Lean_Localization;
+using Lean.Localization;
+#endif
+
+#if USE_AD_NETWORKS
+using NamPhuThuy.AdNetworkAdapter;
+#endif
 
 
 namespace NamPhuThuy.UGUIImplement
@@ -243,7 +250,9 @@ namespace NamPhuThuy.UGUIImplement
             // Pause video to free memory before showing fullscreen ad
             PauseVideoBeforeAd();
 
+#if USE_AD_NETWORKS
             AdsManager.Ins.TryShow_RewardAd_MAX(OnRewardReceived, OnVideoNotAvailable, OnRewardHidden,AdWatchReason.DOWNLOAD_PICTURE);
+#endif
 
             void OnRewardReceived()
             {
@@ -292,7 +301,9 @@ namespace NamPhuThuy.UGUIImplement
                 ResumeVideoAfterAd();
 
                 int level = DataManager.Ins.PProgressData.LevelId;
+#if USE_FIREBASE_ANALYTICS
                 AnalyticsAdapter.Log_RewardAd_Watched(DataManager.Ins.PProgressData.LevelId + 1, nameof(AdWatchPlace.GUI_PICTURE_NEW));
+#endif
             }
         }
 

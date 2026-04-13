@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Lean.Localization;
 using MoreMountains.Tools;
-using NamPhuThuy.AdNetworkAdapter;
+
+
+
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
 using NamPhuThuy.DataManage;
@@ -16,6 +18,9 @@ using UnityEngine.UI;
 using UnityEngine.VFX;
 using DebugLogger = NamPhuThuy.Common.DebugLogger;
 
+#if USE_AD_NETWORKS
+using NamPhuThuy.AdNetworkAdapter;
+#endif
 
 namespace NamPhuThuy.UGUIImplement
 {
@@ -265,6 +270,7 @@ namespace NamPhuThuy.UGUIImplement
             }
             timer = _intervalTime;
 
+#if USE_AD_NETWORKS
             if (AdsManager.Ins.CanShow_DoubleInter())
             {
                 UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen, 0f, UGUIConst.FAKE_LOAD_DURATION, onLoadingComplete);
@@ -277,6 +283,9 @@ namespace NamPhuThuy.UGUIImplement
             {
                 UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen, 0f, AdsConst.MIN_MREC_DURATION, onLoadingComplete);
             }
+#else
+            UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen, 0f, 1f, onLoadingComplete);
+#endif
             
             HideButtons();
             playButton.interactable = false;

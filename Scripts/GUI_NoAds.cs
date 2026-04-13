@@ -1,9 +1,13 @@
 using NamPhuThuy.DataManage;
-using NamPhuThuy.IAPAdapter;
+
 using TMPro;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
+
+#if USE_UNITY_IAP
+using NamPhuThuy.IAPAdapter;
 #endif
 
 namespace NamPhuThuy.UGUIImplement
@@ -63,13 +67,17 @@ namespace NamPhuThuy.UGUIImplement
         
         private void OnClickBuy()
         {
+#if USE_UNITY_IAP
             IAPManager.Ins.BuyProduct(IAPConst.REMOVEADS_PACK_01_ID);
+#endif
         }
 
         private void UpdateUI()
         {
+#if USE_UNITY_IAP
             IAPRecord iapData = DataManager.Ins.IAPDataShop.GetRecord(IAPConst.REMOVEADS_PACK_01_ID);
             priceText.text = iapData.Price;
+#endif
         }
         
         

@@ -4,17 +4,25 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
-using Lean.Localization;
+
 using MoreMountains.Tools;
-using NamPhuThuy.AdNetworkAdapter;
+
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
 using NamPhuThuy.DataManage;
 using NamPhuThuy.FirebaseAdapter;
-using NamPhuThuy.Lean_Localization;
+
 using UnityEngine.Networking;
 using DebugLogger = NamPhuThuy.Common.DebugLogger;
+
+#if USE_LEAN_LOCALIZATION
+using Lean.Localization;
+using NamPhuThuy.Lean_Localization;
+#endif
+
+#if USE_AD_NETWORKS
+using NamPhuThuy.AdNetworkAdapter;
+#endif
 
 
 #if UNITY_EDITOR
@@ -81,7 +89,14 @@ namespace NamPhuThuy.UGUIImplement
 
         #region Private Fields
 
-        private string _downloadedNoti = LeanLocalizedConst.DOWNLOADED;
+        
+#if USE_LEAN_LOCALIZATION
+        private string _downloadedNoti = LeanLocalizedConst.DOWNLOADED; 
+#else
+        private string _downloadedNoti = "";
+#endif
+        
+        
         private RectTransform _downloadImageButtonRT;
         private Vector3 _downloadImageButtonPosition;
 
@@ -279,7 +294,7 @@ namespace NamPhuThuy.UGUIImplement
         private void OnClickVideoDownload()
         {
             DebugLogger.Log();
-            _downloadedNoti = LeanLocalizedConst.DOWNLOADED;
+            // _downloadedNoti = LeanLocalizedConst.DOWNLOADED;
 
             if (DataManager.Ins.PProgressData.IsVIP)
             {
@@ -356,7 +371,7 @@ namespace NamPhuThuy.UGUIImplement
                     }
                     else
                     {
-                        _downloadedNoti = LeanLocalizedConst.DOWNLOAD_FAILED;
+                        // _downloadedNoti = LeanLocalizedConst.DOWNLOAD_FAILED;
                         Debug.LogError($"Failed to load video: {www.error}");
                     }
                 }
@@ -366,7 +381,7 @@ namespace NamPhuThuy.UGUIImplement
         private void OnClickImageDownloadVer2()
         {
             DebugLogger.Log();
-            _downloadedNoti = LeanLocalizedConst.DOWNLOADED;
+            // _downloadedNoti = LeanLocalizedConst.DOWNLOADED;
 
             if (DataManager.Ins.PProgressData.IsVIP)
             {
@@ -378,7 +393,9 @@ namespace NamPhuThuy.UGUIImplement
             // Pause GUIPictureNew's video to free memory before showing fullscreen ad
             UGUIManager.Ins.GUIPictureNew?.PauseVideoBeforeAd();
 
+#if USE_AD_NETWORKS
             AdsManager.Ins.TryShow_RewardAd_MAX(OnRewardReceived, OnVideoNotAvailable, OnRewardHidden,AdWatchReason.DOWNLOAD_PICTURE);
+#endif
 
             void OnRewardReceived()
             {
@@ -414,7 +431,11 @@ namespace NamPhuThuy.UGUIImplement
 
                 var args = new ToastArgs
                 {
+#if USE_LEAN_LOCALIZATION
                     Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET),
+#else
+                    Message = "Check internet",
+#endif
                     CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
                     TextColor = Color.white,
                     TextFont = UGUIManager.Ins.DefaultFont,
@@ -427,20 +448,26 @@ namespace NamPhuThuy.UGUIImplement
             {
                 UGUIManager.Ins.GUIPictureNew?.ResumeVideoAfterAd();
 
+#if USE_FIREBASE_ANALYTICS
                 AnalyticsAdapter.Log_RewardAd_Watched(DataManager.Ins.PProgressData.LevelId + 1, nameof(AdWatchPlace.GUI_PICTURE_DETAILS));
+#endif
             }
         }
 
         private void OnClickUseAsBackground()
         {
-            MMEventManager.TriggerEvent(new EBackgroundUpdate_Fire
+            /*MMEventManager.TriggerEvent(new EBackgroundUpdate_Fire
             {
                 albumId = currentPictureId
-            });
+            });*/
 
             var args = new ToastArgs
             {
+#if USE_LEAN_LOCALIZATION
                 Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.BACKGROUND_UPDATED),
+#else
+                Message = "downloading",
+#endif
                 CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
                 TextColor = Color.white,
                 TextFont = UGUIManager.Ins.DefaultFont,
@@ -562,7 +589,11 @@ namespace NamPhuThuy.UGUIImplement
                 
                 var args = new ToastArgs
                 {
+#if USE_LOCALIZATION
                     Message = LeanLocalization.GetTranslationText(_downloadedNoti),
+#else
+                    Message = "downloading",
+#endif
                     CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
                     TextColor = Color.white,
                     TextFont = UGUIManager.Ins.DefaultFont,

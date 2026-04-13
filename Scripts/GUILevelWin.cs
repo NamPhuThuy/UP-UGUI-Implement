@@ -2,16 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Lean.Localization;
+
 using MoreMountains.Tools;
-using NamPhuThuy.AdNetworkAdapter;
+
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
 using NamPhuThuy.DataManage;
 using NamPhuThuy.FirebaseAdapter;
+
+#if USE_AD_NETWORKS
+using NamPhuThuy.AdNetworkAdapter;
+#endif
+
+#if USE_LEAN_LOCALIZATION
 using NamPhuThuy.Lean_Localization;
+using Lean.Localization;
+#endif
+
+#if USE_SPINE
 using NamPhuThuy.SpineAdapter;
 using Spine.Unity;
+#endif
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -128,12 +140,14 @@ namespace NamPhuThuy.UGUIImplement
 #endif
             
             // Play VFX and SFX
+#if USE_SPINE
             SpineHelper.PlayAppearThenLoop(
                 winSkeGrap,
                 "appear", // Plays once (loop=false)
                 "idle", // Loops forever (loop=true)
                 timeScale: 1f
             );
+#endif
 
             if (confettiParticle != null)
             {
@@ -423,7 +437,9 @@ namespace NamPhuThuy.UGUIImplement
                 UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen);
                 PrimeTween.Tween.Delay(1f, () =>
                 {
+#if USE_AD_NETWORKS
                     AdsManager.Ins.TryShow_Inter_MAX(true, "load_next_level", OnInterClose);
+#endif
                     Hide();
                 });
 
@@ -434,6 +450,7 @@ namespace NamPhuThuy.UGUIImplement
             nextLevelButton.interactable = false;
             interactable = false;
             
+#if USE_AD_NETWORKS
             if (AdsManager.Ins.CanShow_DoubleInter())
             {
                 UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen, 0f, UGUIConst.FAKE_LOAD_DURATION, onLoadingComplete);
@@ -446,6 +463,9 @@ namespace NamPhuThuy.UGUIImplement
             {
                 UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen, 0f, AdsConst.MIN_MREC_DURATION, onLoadingComplete);
             }
+#else
+            UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen, 0f, 1f, onLoadingComplete);
+#endif
             
             UGUIManager.Ins.HideGUI(this);
 
@@ -475,8 +495,9 @@ namespace NamPhuThuy.UGUIImplement
             if (!interactable) return;
 
             // Example: when a user finishes a level and watches a rewarded ad:
-            AdsManager.Ins.TryShow_RewardAd_MAX(OnRewardReceived, OnVideoNotAvailable, OnRewardHidden,
-                AdWatchReason.END_LEVEL_REWARD);
+#if USE_AD_NETWORKS
+                AdsManager.Ins.TryShow_RewardAd_MAX(OnRewardReceived, OnVideoNotAvailable, OnRewardHidden, AdWatchReason.END_LEVEL_REWARD);
+#endif
 
             void OnRewardReceived()
             {
@@ -529,7 +550,9 @@ namespace NamPhuThuy.UGUIImplement
 
             void OnRewardHidden()
             {
+#if USE_FIREBASE_ANALYTICS
                 AnalyticsAdapter.Log_RewardAd_Watched(DataManager.Ins.PProgressData.LevelId + 1, nameof(AdWatchPlace.GUI_LEVEL_WIN));
+#endif
                 
                 // DebugLogger.Log($"GUILevelWin.OnCLickCoinAds.OnAdsClosed()");
             }

@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
+#if USE_AD_NETWORKS
 using NamPhuThuy.AdNetworkAdapter;
+#endif
+
 using NamPhuThuy.Common;
 using NamPhuThuy.DataManage;
 using UnityEngine;
@@ -46,7 +50,9 @@ namespace NamPhuThuy.UGUIImplement
         public override void Show(params object[] parameters)
         {
             base.Show(parameters);
+#if USE_AD_NETWORKS
             AdsManager.Ins.TryShow_MRec_MAX();
+#endif
             
             DebugLogger.Log();
 
@@ -78,7 +84,11 @@ namespace NamPhuThuy.UGUIImplement
                     onValueChange: val => loadingSlider.value = val)
                 .OnComplete(() =>
                 {
+      
+                    
+#if USE_AD_NETWORKS
                     AdsManager.Ins.Hide_MRec_MAX();
+#endif
                     _onLoadingComplete?.Invoke();
 
                     PrimeTween.Tween.Alpha(canvasGroupTotal, 0f, duration: 0.4f).OnComplete(() =>
@@ -97,7 +107,11 @@ namespace NamPhuThuy.UGUIImplement
         {
             base.Hide(parameters);
             _loadTween.Complete();
+#if USE_AD_NETWORKS
             AdsManager.Ins.Hide_MRec_MAX();
+#endif
+            
+
             
         }
 
@@ -105,7 +119,9 @@ namespace NamPhuThuy.UGUIImplement
         {
             base.HideFast(parameters);
             _loadTween.Complete();
+#if USE_AD_NETWORKS
             AdsManager.Ins.Hide_MRec_MAX();
+#endif
         }
 
         #endregion

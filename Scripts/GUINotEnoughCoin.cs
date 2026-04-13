@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.DataManage;
 
+#if USE_UNITY_IAP
 using NamPhuThuy.IAPAdapter;
+#endif
 
 
 #if USE_LEAN_LOCALIZATION
@@ -112,7 +114,12 @@ namespace NamPhuThuy.UGUIImplement
             else
             {
                 // AudioManager.Ins.Play(AudioEnum.SFX_CONFIRM);
-                AnimationManager.Ins.PlayBasicPopupText(LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING));
+                string message = "";
+
+#if USE_LEAN_LOCALIZATION
+                message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING);
+#endif
+                AnimationManager.Ins.PlayBasicPopupText(message);
             }
         }
         
@@ -176,7 +183,7 @@ namespace NamPhuThuy.UGUIImplement
                 AnalyticsAdapter.Log_RewardAd_Watched(DataManager.Ins.PProgressData.LevelId + 1, nameof(AdWatchPlace.GUI_NOT_ENOUGH_COIN));
             }
 #else
-            GUIManager.Ins.HideGUI(this);
+            UGUIManager.Ins.HideGUI(this);
 #endif
         }
 
@@ -191,7 +198,7 @@ namespace NamPhuThuy.UGUIImplement
 #if USE_UNITY_IAP
             IAPManager.Ins.BuyProduct(_currentBundleId); 
 #else
-            DebugLogger.Log(message:"Nothing happens")
+            DebugLogger.Log(message: "Nothing happens");
 #endif
         }
         #endregion

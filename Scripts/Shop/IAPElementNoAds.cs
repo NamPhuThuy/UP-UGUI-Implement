@@ -1,12 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NamPhuThuy.IAPAdapter;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
+
+
+#if USE_UNITY_IAP
+using NamPhuThuy.IAPAdapter;
 #endif
 
 namespace NamPhuThuy
@@ -41,14 +46,18 @@ namespace NamPhuThuy
         protected override void OnEnable()
         {
             base.OnEnable();
+#if USE_UNITY_IAP
             IAPManager.localizedPriceFetchedEvent += RefreshPrice;
+#endif
             RefreshPrice();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+#if USE_UNITY_IAP
             IAPManager.localizedPriceFetchedEvent -= RefreshPrice;
+#endif
         }
 
         #endregion
@@ -64,7 +73,9 @@ namespace NamPhuThuy
 
         private void RefreshPrice()
         {
+#if USE_UNITY_IAP
             priceText.text = IAPManager.Ins.GetLocalizedPrice(iapPackId);
+#endif
         }
 
         #region Public Methods

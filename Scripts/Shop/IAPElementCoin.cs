@@ -1,10 +1,15 @@
 using System;
-using NamPhuThuy.IAPAdapter;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NamPhuThuy
+
+#if USE_UNITY_IAP
+using NamPhuThuy.IAPAdapter;
+#endif
+
+namespace NamPhuThuy.UGUIImplement
 {
 
     public class IAPElementCoin : IAPElementBase
@@ -41,15 +46,18 @@ namespace NamPhuThuy
         protected override void OnEnable()
         {
             base.OnEnable();
-            // [FIX 6.3] Subscribe to price update events so stale "0.01$" is replaced when store responds
+#if USE_UNITY_IAP
             IAPManager.localizedPriceFetchedEvent += RefreshPrice;
+#endif
             RefreshPrice();
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
+#if USE_UNITY_IAP
             IAPManager.localizedPriceFetchedEvent -= RefreshPrice;
+#endif
         }
 
         #region Button Events
@@ -67,7 +75,9 @@ namespace NamPhuThuy
 
         private void RefreshPrice()
         {
+#if USE_UNITY_IAP
             priceText.text = IAPManager.Ins.GetLocalizedPrice(iapPackId);
+#endif
         }
 
         #endregion
