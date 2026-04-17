@@ -260,10 +260,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextFont = UGUIManager.Ins.DefaultFont,
-                    TextColor = Color.white,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textFont = UGUIManager.Ins.DefaultFont,
+                    textColor = Color.white,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);

@@ -506,13 +506,13 @@ namespace NamPhuThuy.UGUIImplement
 
                 var args = new ItemFlyArgs
                 {
-                    AddValue = rewards.GetCoinAmount(),
-                    PrevValue = DataManager.Ins.PInventoryData.Coin,
-                    TargetText = UGUIManager.Ins.GUILevelWin.CoinPanel.CoinText.transform,
-                    StartPosition = this.transform.position,
-                    TargetInteractTransform = UGUIManager.Ins.GUILevelWin.CoinPanel.transform, // For positioning the target
-                    ItemAmount = 6,
-                    ItemSprite = DataManager.Ins.ResourceData.GetResourceRecord(ResourceType.COIN).gameplayImage,
+                    addValue = rewards.GetCoinAmount(),
+                    prevValue = DataManager.Ins.PInventoryData.Coin,
+                    targetText = UGUIManager.Ins.GUILevelWin.CoinPanel.CoinText.transform,
+                    startPosition = this.transform.position,
+                    targetInteractTransform = UGUIManager.Ins.GUILevelWin.CoinPanel.transform, // For positioning the target
+                    itemAmount = 6,
+                    itemSprite = DataManager.Ins.ResourceData.GetResourceRecord(ResourceType.COIN).gameplayImage,
                     OnItemInteract = () =>
                     {
                         #if USE_AUDIO
@@ -539,10 +539,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -574,10 +574,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CANT_CLICK),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CANT_CLICK),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);

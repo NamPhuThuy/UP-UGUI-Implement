@@ -432,13 +432,13 @@ namespace NamPhuThuy.UGUIImplement
                 var args = new ToastArgs
                 {
 #if USE_LEAN_LOCALIZATION
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET),
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET),
 #else
                     Message = "Check internet",
 #endif
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -464,13 +464,13 @@ namespace NamPhuThuy.UGUIImplement
             var args = new ToastArgs
             {
 #if USE_LEAN_LOCALIZATION
-                Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.BACKGROUND_UPDATED),
+                message = LeanLocalization.GetTranslationText(LeanLocalizedConst.BACKGROUND_UPDATED),
 #else
                 Message = "downloading",
 #endif
-                CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                TextColor = Color.white,
-                TextFont = UGUIManager.Ins.DefaultFont,
+                customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                textColor = Color.white,
+                textFont = UGUIManager.Ins.DefaultFont,
                 customDuration = 0.5f,
             };
             AnimationManager.Ins.Play(args);
@@ -592,11 +592,11 @@ namespace NamPhuThuy.UGUIImplement
 #if USE_LOCALIZATION
                     Message = LeanLocalization.GetTranslationText(_downloadedNoti),
 #else
-                    Message = "downloading",
+                    message = "downloading",
 #endif
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);

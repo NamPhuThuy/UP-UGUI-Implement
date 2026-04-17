@@ -259,10 +259,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.NO_PICTURE),
-                    CustomAnchoredPos = AnimationConst.UPPER_MIDDLE_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.NO_PICTURE),
+                    customAnchoredPos = AnimationConst.UPPER_MIDDLE_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -297,10 +297,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.NO_PICTURE),
-                    CustomAnchoredPos = AnimationConst.UPPER_MIDDLE_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.NO_PICTURE),
+                    customAnchoredPos = AnimationConst.UPPER_MIDDLE_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -325,10 +325,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.NO_PICTURE),
-                    CustomAnchoredPos = AnimationConst.UPPER_MIDDLE_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.NO_PICTURE),
+                    customAnchoredPos = AnimationConst.UPPER_MIDDLE_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);

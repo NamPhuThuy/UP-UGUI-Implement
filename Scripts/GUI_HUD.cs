@@ -326,10 +326,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -341,10 +341,10 @@ namespace NamPhuThuy.UGUIImplement
                 DebugLogger.Log(message:$"The hand tut is showing");
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -360,10 +360,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -375,10 +375,10 @@ namespace NamPhuThuy.UGUIImplement
                 DebugLogger.Log(message:$"The hand tut is showing");
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -394,10 +394,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
@@ -443,10 +443,10 @@ namespace NamPhuThuy.UGUIImplement
             {
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextColor = Color.white,
-                    TextFont = UGUIManager.Ins.DefaultFont,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textColor = Color.white,
+                    textFont = UGUIManager.Ins.DefaultFont,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);

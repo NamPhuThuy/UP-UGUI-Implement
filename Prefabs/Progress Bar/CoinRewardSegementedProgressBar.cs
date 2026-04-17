@@ -148,13 +148,13 @@ namespace NamPhuThuy.UGUIImplement
 
             var args = new ItemFlyArgs
             {
-                AddValue = rewards.GetCoinAmount(),
-                PrevValue = DataManager.Ins.PInventoryData.Coin,
-                TargetText = UGUIManager.Ins.GUILevelWin.CoinPanel.CoinText.transform,
-                StartPosition = giftSkeleton.transform.position,
-                TargetInteractTransform = UGUIManager.Ins.GUILevelWin.CoinPanel.transform, // For positioning the target
-                ItemAmount = 6,
-                ItemSprite = DataManager.Ins.ResourceData.GetResourceRecord(ResourceType.COIN).gameplayImage,
+                addValue = rewards.GetCoinAmount(),
+                prevValue = DataManager.Ins.PInventoryData.Coin,
+                targetText = UGUIManager.Ins.GUILevelWin.CoinPanel.CoinText.transform,
+                startPosition = giftSkeleton.transform.position,
+                targetInteractTransform = UGUIManager.Ins.GUILevelWin.CoinPanel.transform, // For positioning the target
+                itemAmount = 6,
+                itemSprite = DataManager.Ins.ResourceData.GetResourceRecord(ResourceType.COIN).gameplayImage,
                 OnItemInteract = () =>
                 {
                     // TurnOnStatChangeVFX(coinText)
