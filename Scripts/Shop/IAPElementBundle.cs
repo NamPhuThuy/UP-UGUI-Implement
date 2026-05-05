@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using MoreMountains.Tools;
-
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if USE_UNTIY_IAP
+#if USE_UNITY_IAP
 using NamPhuThuy.IAPAdapter;
 #endif
 
@@ -45,9 +44,9 @@ namespace NamPhuThuy.UGUIImplement
         protected override void OnEnable()
         {
             base.OnEnable();
-            #if USE_UNITY_IAP
-            IAPManager.localizedPriceFetchedEvent += RefreshPrice;
-            #endif
+#if USE_UNITY_IAP
+        IAPManager.localizedPriceFetchedEvent += RefreshPrice;
+#endif
             RefreshPrice();
         }
 

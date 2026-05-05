@@ -138,13 +138,13 @@ namespace NamPhuThuy.UGUIImplement
 
                 var args = new ItemFlyArgs
                 {
-                    AddValue = rewards.GetCoinAmount(),
-                    PrevValue = DataManager.Ins.PInventoryData.Coin, 
-                    TargetText = coinPanel.CoinText.transform,
-                    TargetInteractTransform = coinPanel.transform, // For positioning the target
-                    StartPosition = this.transform.position,
-                    ItemAmount = 6,
-                    ItemSprite = DataManager.Ins.ResourceData.GetResourceRecord(ResourceType.COIN).gameplayImage,
+                    addValue = rewards.GetCoinAmount(),
+                    prevValue = DataManager.Ins.PInventoryData.Coin, 
+                    targetText = coinPanel.CoinText.transform,
+                    targetInteractTransform = coinPanel.transform, // For positioning the target
+                    startPosition = this.transform.position,
+                    itemAmount = 6,
+                    itemSprite = DataManager.Ins.ResourceData.GetResourceRecord(ResourceType.COIN).gameplayImage,
                     OnItemInteract = () =>
                     {
                         // TurnOnStatChangeVFX(coinText)
@@ -167,10 +167,10 @@ namespace NamPhuThuy.UGUIImplement
                 DebugLogger.Log(message:$"OnVideoNotAvailable");
                 var args = new ToastArgs
                 {
-                    Message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET),
-                    CustomAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    TextFont = UGUIManager.Ins.DefaultFont,
-                    TextColor = Color.white,
+                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET),
+                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
+                    textFont = UGUIManager.Ins.DefaultFont,
+                    textColor = Color.white,
                     customDuration = 0.5f,
                 };
                 AnimationManager.Ins.Play(args);
