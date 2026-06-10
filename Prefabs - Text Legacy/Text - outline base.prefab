@@ -72,7 +72,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 5aaf41533260c6143bedf39bdf9d0492, type: 3}
     m_FontSize: 45
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 4
     m_MaxSize: 50
     m_Alignment: 4
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
   m_EffectColor: {r: 1, g: 0.4198113, b: 0.4198113, a: 1}
-  m_EffectDistance: {x: -2.69, y: -2.02}
+  m_EffectDistance: {x: -1.6, y: -1.6}
   m_UseGraphicAlpha: 1
 --- !u!114 &1996133540242808706
 MonoBehaviour:
