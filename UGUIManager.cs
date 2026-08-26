@@ -11,9 +11,6 @@ using System.Linq;
 using Lean.Localization;
 #endif
 
-using NamPhuThuy.PuzzleTutorial;
-
-
 #if USE_LEAN_LOCALIZATION
 using NamPhuThuy.Lean_Localization;
 #endif
@@ -26,7 +23,7 @@ using UnityEditor.SceneManagement;
 // ReSharper disable once CheckNamespace
 namespace NamPhuThuy.UGUIImplement
 {
-    public partial class UGUIManager : Common.Singleton<UGUIManager>, MMEventListener<ELevelLoaded>, MMEventListener<ELevelLoad_Failed>, MMEventListener<ELevelLoad_OutRange>, MMEventListener<ELevelFinished>, MMEventListener<EBoosterActive_Fire>, MMEventListener<EBoosterDataUpdated>, MMEventListener<EATileIsChosen>, MMEventListener<ETutorialStarted>,MMEventListener<ETutorialFinished>, MMEventListener<EPictureRemoteDownloaded>, MMEventListener<ETutorialStepStarted>, MMEventListener<EGUIShow_Fire> /*, MMEventListener<EActiveNoAds>, MMEventListener<EPictureUnlocked>*/
+    public partial class UGUIManager : Singleton<UGUIManager>
     {
 
         [SerializeField] private List<GUIBase> guiList = new List<GUIBase>();
@@ -89,22 +86,9 @@ namespace NamPhuThuy.UGUIImplement
             FindAllGUIBaseRuntime();
 
             HideAllGUIs();
-            ShowGUI(guiHome);
         }
 
-        private void OnEnable()
-        {
-           
-            if (guiPictureNew != null) GUIPictureNew.ChangeLikeState += OnChangeLikeState;
-            if (guiPictureDetails != null) GUIPictureDetails.ChangeLikeState += OnChangeLikeState;
-        }
-
-        private void OnDisable()
-        {
-            
-            if (guiPictureNew != null) GUIPictureNew.ChangeLikeState -= OnChangeLikeState;
-            if (guiPictureDetails != null) GUIPictureDetails.ChangeLikeState -= OnChangeLikeState;
-        }
+     
 
    
         #endregion
@@ -273,185 +257,19 @@ namespace NamPhuThuy.UGUIImplement
 
         private void OnGUIHide(GUIBase.GUIId guiId)
         {
-            MMEventManager.TriggerEvent(new EGUIHidden()
-            {
-                guiId = guiId
-            });
-            visibleGUICount = Mathf.Max(0, visibleGUICount - 1);
-        }
-
-        public void CacheAllCoinPanels()
-        {
-            cachedCoinPanels = transform.GetComponentsFromAllChildren<CoinPanel>().ToList();
+           
         }
 
         #endregion
 
-        #region Events Listen
-
-        public void OnMMEvent(ELevelLoaded eventType)
-        {
-            DebugLogger.Log();
-            HideAllGUIs();
-            ShowGUI(GUIHUD);
-
-            GUIHUD.EnableInteract();
-
-            foreach (Booster booster in GUIHUD.BoosterList)
-            {
-                booster.FinishIECoolDown();
-            }
-        }
-
-        public void OnMMEvent(ELevelLoad_Failed eventType)
-        {
-            DebugLogger.Log();
-            HideAllGUIs();
-            ShowGUI(guiHome);
-            ShowGUI(guiNotification, 0f, LeanLocalization.GetTranslationText(LeanLocalizedConst.CHECK_INTERNET), LeanLocalization.GetTranslationText(LeanLocalizedConst.CANT_LOAD_LEVEL));
-        }
-        
-        public void OnMMEvent(ELevelLoad_OutRange eventArgs)
-        {
-            HideAllGUIs();
-            ShowGUI(guiHome);
-            ShowGUI(guiNotification, 0f, LeanLocalization.GetTranslationText(LeanLocalizedConst.YOURE_FINISHED), LeanLocalization.GetTranslationText(LeanLocalizedConst.NEW_LEVELS_ARE_COMING_SOON));
-        }
-
-        public void OnMMEvent(ELevelFinished eventType)
-        {
-            if (eventType.IsWin)
-            {
-                HideAllGUIs();
-                ShowGUI(GUILevelWin);
-            }
-            else
-            {
-                ShowGUI(GUIRevive);
-            }
-        }
-
-        public void OnMMEvent(EBoosterActive_Fire eventType)
-        {
-            foreach (Booster booster in GUIHUD.BoosterList)
-            {
-                booster.StartBoosterCooldown();
-            }
-        }
-
-        public void OnMMEvent(EBoosterDataUpdated eventType)
-        {
-            // GUIHUD.UpdateUIBoosters(eventType.BoosterType);
-        }
-        
-        public void OnMMEvent(EATileIsChosen eventType)
-        {
-            guiHUD.TurnOffTutorialImage();
-        }
-        
-        public void OnMMEvent(EPictureRemoteDownloaded eventArgs)
-        {
-            DebugLogger.Log(message: $"Receive EPictureRemoteDownloaded");
-            foreach (ElementGallery element in guiGallery.ScrollViewGallery.ElementList)
-            {
-                if (eventArgs.pictureId == element.pictureId)
-                {
-                    element.HidePlaceholder();
-                    element.contentImage.sprite = eventArgs.girlSprite;
-                    element.FitImageToRectTransform();
-                    break;
-                }
-            }
-        }
-
-        /*public void OnMMEvent(EPictureUnlocked eventType)
-        {
-            guiGallery.ScrollViewGallery.AddElement(eventType.pictureId);
-
-            // guiLoadingScreen.LoadingImage.sprite = DataManager.Ins.PictureDatas.allPictureDatas[eventType.pictureId].mainImage;
-            // guiLoadingScreen.FitImage();
-            guiLoadingScreen.UpdateBackImage(eventType.pictureId);
-        }
-
-        public void OnMMEvent(EActiveNoAds eventType)
-        {
-            guiHome.ValidateNoAdsButton();
-            guiHUD.ValidateNoAdsButton();
-            guiNoAds.Hide();
-        }*/
-        
-        public void OnMMEvent(ETutorialStarted eventArgs)
-        {
-            DebugLogger.Log(message:$"isForceFollow: {eventArgs.isForceFollow}");
-            if (eventArgs.isForceFollow)
-            {
-                guiHUD.DisableInteract();
-                guiHUD.LockBoosters();
-            }
-        }
-        
-        public void OnMMEvent(ETutorialFinished eventArgs)
-        {
-            // guiHUD.EnableInteract();
-            guiHUD.ToggleIsHandTutShowing(false);
-        }
-        
-        public void OnMMEvent(ETutorialStepStarted eventArgs)
-        {
-            if (eventArgs.StepRecord.Type == TutorialStepType.HAND_POINT_TARGET_WAIT_HOLD
-                || eventArgs.StepRecord.Type == TutorialStepType.HAND_POINT_BOOSTER_WAIT_CLICK
-                || eventArgs.StepRecord.Type == TutorialStepType.HAND_POINT_FOR_BOOSTER
-                || eventArgs.StepRecord.Type == TutorialStepType.HAND_POINT_TARGET_WAIT_CLICK)
-            {
-                // guiHUD.DisableInteract();
-                guiHUD.ToggleIsHandTutShowing(true);
-            }
-
-            if (eventArgs.StepRecord.TargetTagOrId == "0")
-            {
-                guiHUD.LockBooster(1);
-                // guiHUD.LockBooster(2);
-            }
-            else if (eventArgs.StepRecord.TargetTagOrId == "1")
-            {
-                guiHUD.LockBooster(0);
-                // guiHUD.LockBooster(2);
-            }
-            else if (eventArgs.StepRecord.TargetTagOrId == "2")
-            {
-                guiHUD.LockBooster(0);
-                guiHUD.LockBooster(1);
-            }
-        }
-        
-        public void OnMMEvent(EGUIShow_Fire eventArgs)
-        {
-            GUIBase gui = GetGUI(eventArgs.guiId);
-            if (gui != null)
-                ShowGUI(gui, eventArgs.delay, eventArgs.parameters);
-        }
-
-        public void OnLanguageChanged()
-        {
-            DebugLogger.Log();
-            guiHUD.UpdateLocalizedTextWithParams();
-            guiHome.UpdateLocalizedTextWithParams();
-            guiLevelWin.UpdateLocalizedTextWithParams();
-        }
-        
-      
-        
-        #endregion
 
         #region Sub GUI Event
 
-        private void OnChangeLikeState()
-        {
-            GUIPictureDetails.SetStateReactButtons();
-            GUIPictureNew.SetStateForButton();
-            GUIGallery.OnChangeLikeState();
-        }
 
+        private void OnLanguageChanged()
+        {
+            
+        }
        
 
         #endregion
@@ -479,34 +297,12 @@ namespace NamPhuThuy.UGUIImplement
             _uguiManager = (UGUIManager)target;
 
             ButtonFindAllGUIBases();
-            ButtonFindAllCoinPanels();
         }
 
         private void ButtonFindAllGUIBases()
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-
-            if (GUILayout.Button("Find All GUIBase", GUILayout.Width(InspectorConst.BUTTON_WIDTH_LARGE)))
-            {
-                _uguiManager.FindAllGUIBase();
-                EditorSceneManager.MarkSceneDirty(_uguiManager.gameObject.scene);
-            }
-
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-        }
-
-        private void ButtonFindAllCoinPanels()
-        {
-            GUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-
-            if (GUILayout.Button("Find All Coin Panels", GUILayout.Width(InspectorConst.BUTTON_WIDTH_LARGE)))
-            {
-                _uguiManager.CacheAllCoinPanels();
-                EditorSceneManager.MarkSceneDirty(_uguiManager.gameObject.scene);
-            }
 
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();

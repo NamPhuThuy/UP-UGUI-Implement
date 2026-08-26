@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Lean.Localization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -62,7 +61,7 @@ namespace NamPhuThuy.UGUIImplement
             UGUIManager.Ins.GUILanguage.TurnOffElements();
             _languageButtonSwitch.SetState(ButtonSwitch.ButtonSwitchState.ON);
             
-            LeanLocalization.SetCurrentLanguageAll(currentLanguage.ToString());
+            // LeanLocalization.SetCurrentLanguageAll(currentLanguage.ToString());
         }
 
         #endregion

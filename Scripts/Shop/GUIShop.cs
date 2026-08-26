@@ -25,7 +25,6 @@ namespace NamPhuThuy.UGUIImplement
         [Header("Components")]
         [SerializeField] private CoinPanel coinPanel;
         public CoinPanel CoinPanel => coinPanel;
-        [SerializeField] private ScrollViewIAPBundles scrollViewIAPBundles;
         
 
         // [SerializeField] private GameObject noAdsElement;
@@ -37,11 +36,6 @@ namespace NamPhuThuy.UGUIImplement
 
         #region MonoBehaviour Callbacks
 
-        private void Start()
-        {
-            scrollViewIAPBundles.Setup();
-            scrollViewIAPBundles.SetupScrollViewContent();
-        }
 
         void OnEnable()
         {
@@ -84,7 +78,7 @@ namespace NamPhuThuy.UGUIImplement
         {
             base.Show(parameters);
 
-            scrollViewIAPBundles.ScrollRect.LockVerticalScrollALittle();
+            // scrollViewIAPBundles.ScrollRect.LockVerticalScrollALittle();
         }
 
         public override void Hide(params object[] parameters)

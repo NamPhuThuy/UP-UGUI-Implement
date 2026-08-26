@@ -8,10 +8,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using MoreMountains.Tools;
 
-using NamPhuThuy.AnimateWithScripts;
-using NamPhuThuy.DataManage;
-using NamPhuThuy.FirebaseAdapter;
-
 using DebugLogger = NamPhuThuy.Common.DebugLogger;
 
 #if USE_LEAN_LOCALIZATION
@@ -35,10 +31,6 @@ namespace NamPhuThuy.UGUIImplement
     {
         #region Private Serializable Fields
 
-        [Header("Boosters")]
-        [SerializeField] private List<Booster> boosterList;
-        public List<Booster> BoosterList => boosterList;
-
         [Header("Buttons")]
         [SerializeField] private Button settingsButton;
         [SerializeField] private Button shopButton;
@@ -49,7 +41,6 @@ namespace NamPhuThuy.UGUIImplement
 
         [Header("Texts")]
         [SerializeField] private TextMeshProUGUI levelTitleText;
-        [SerializeField] private LeanLocalizedTextMeshProUGUI levelTitleTextLocalized;
 
         [Header("Images")]
         [SerializeField] private Image tutorialImage;
@@ -79,7 +70,6 @@ namespace NamPhuThuy.UGUIImplement
             /*removeAdsButton?.onClick.AddListener((() => { GUIManager.Ins.ShowGUI(GUIManager.Ins.GUINoAds); }));
             */
             
-            cheatButton.onClick.AddListener((() => UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUICheat)));
         }
 
         private void OnEnable()
@@ -167,8 +157,6 @@ namespace NamPhuThuy.UGUIImplement
             IEnumerator IE_Update()
             {
                 yield return YieldHelper.GetRealtime(UGUIConst.TRANSLATION_DELAY);
-                
-                levelTitleTextLocalized.UpdateTranslationWithParameter(LeanLocalizedConst.PARAM_LEVEL, $"{DataManager.Ins.PProgressData.LevelId + 1}");
             }
         }
 
@@ -180,89 +168,21 @@ namespace NamPhuThuy.UGUIImplement
             tutorialImage.gameObject.SetActive(false);
         }
 
-        public void DelayBoostersActive(float seconds)
-        {
-            // DebugLogger.Log($"GUIHUD.DelayBoostersActive(): {seconds}");
-            if (_delayBoostersActiveCo != null)
-            {
-                StopCoroutine(_delayBoostersActiveCo);
-                _delayBoostersActiveCo = null;
-            }
-
-            _delayBoostersActiveCo = StartCoroutine(IEDelayBoostersActive(seconds));
-        }
-        public IEnumerator IEDelayBoostersActive(float seconds)
-        {
-            // DebugLogger.Log($"GUIHUD.IEDelayBoostersActive(): {seconds}");
-
-            foreach (Booster booster in boosterList)
-            {
-                booster.IsTapTooFast = true;
-            }
-
-            yield return YieldHelper.WaitForSeconds(seconds);
-
-            foreach (Booster booster in boosterList)
-            {
-                booster.IsTapTooFast = false;
-            }
-        }
         
         void ValidateCheatMode()
         {
-            if (!DataManager.Ins.IsCheatMode)
-            {
-                cheatButton.gameObject.SetActive(false);
-                return;
-            }
-            // cheatButton.gameObject.SetActive(true);
+           
         }
 
         public void ValidateNoAdsButton()
         {
             removeAdsButton.gameObject.SetActive(false);
-
-            if (DataManager.Ins.PProgressData.IsAdsRemoved)
-            {
-                removeAdsButton.gameObject.SetActive(false);
-                return;
-            }
-
-            removeAdsButton.gameObject.SetActive(true);
-        }
-
-        public void ActiveSideEffectImages(float duration = 1.2f)
-        {
-            foreach (Image image in sideEffectImages)
-            {
-                image.gameObject.SetActive(true);
-                PrimeTween.Tween.Alpha(image, 1f, duration / 2f).OnComplete(() =>
-                {
-                    PrimeTween.Tween.Alpha(image, 0f, duration / 2f).OnComplete((() =>
-                    {
-                        image.gameObject.SetActive(false);
-                    }));
-                    
-                });
-            }
-            
-            
-            
         }
 
         #endregion
 
         #region Helper Methods
 
-        public void EnableInteract()
-        {
-            DebugLogger.Log(message:$"");
-            isInteractable = true;
-            foreach (Booster booster in boosterList)
-            {
-                booster.UpdateState();
-            }
-        }
 
         public void DisableInteract()
         {
@@ -276,20 +196,6 @@ namespace NamPhuThuy.UGUIImplement
             isHandTutShowing = toggleValue;
         }
         
-        public void LockBoosters()
-        {
-            DebugLogger.Log(message:$"");
-            foreach (Booster booster in boosterList)
-            {
-                booster.SetState(Booster.BoosterState.LOCK);
-            }
-        }
-
-        public void LockBooster(int boosterId)
-        {
-            boosterList[boosterId].SetState(Booster.BoosterState.LOCK);
-        }
-
         #endregion
 
         #region Override Methods
@@ -322,147 +228,22 @@ namespace NamPhuThuy.UGUIImplement
 
         private void OnClickSettings()
         {
-            if (!isInteractable)
-            {
-                var args = new ToastArgs
-                {
-                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    textColor = Color.white,
-                    textFont = UGUIManager.Ins.DefaultFont,
-                    customDuration = 0.5f,
-                };
-                AnimationManager.Ins.Play(args);
-                return;
-            }
             
-            if (isHandTutShowing)
-            {
-                DebugLogger.Log(message:$"The hand tut is showing");
-                var args = new ToastArgs
-                {
-                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    textColor = Color.white,
-                    textFont = UGUIManager.Ins.DefaultFont,
-                    customDuration = 0.5f,
-                };
-                AnimationManager.Ins.Play(args);
-                return;   
-            }
-
-            UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUISettings);
         }
 
         private void OnClickShop()
         {
-            if (!isInteractable)
-            {
-                var args = new ToastArgs
-                {
-                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    textColor = Color.white,
-                    textFont = UGUIManager.Ins.DefaultFont,
-                    customDuration = 0.5f,
-                };
-                AnimationManager.Ins.Play(args);
-                return;
-            }
-
-            if (isHandTutShowing)
-            {
-                DebugLogger.Log(message:$"The hand tut is showing");
-                var args = new ToastArgs
-                {
-                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    textColor = Color.white,
-                    textFont = UGUIManager.Ins.DefaultFont,
-                    customDuration = 0.5f,
-                };
-                AnimationManager.Ins.Play(args);
-                return;   
-            }
-
-            UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUIShop);
+           
         }
 
         private void OnClickReplayLevel()
         {
-            if (!isInteractable)
-            {
-                var args = new ToastArgs
-                {
-                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    textColor = Color.white,
-                    textFont = UGUIManager.Ins.DefaultFont,
-                    customDuration = 0.5f,
-                };
-                AnimationManager.Ins.Play(args);
-                return;
-            }
-
-            UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen);
-            HideButtons();
-            
-            StartCoroutine(IEShowInter());
-
-            void OnInterClose()
-            {
-                StartCoroutine(IEInterClose());
-            }
-
-            IEnumerator IEInterClose()
-            {
-                yield return YieldHelper.WaitForSeconds(0.1f);
-                MMEventManager.TriggerEvent(new ELevelLoad_Fire()
-                {
-                    levelId = DataManager.Ins.PProgressData.LevelId
-                });
-            }
-
-            IEnumerator IEShowInter()
-            {
-                yield return YieldHelper.WaitForSeconds(0.5f);
-                StartCoroutine(IEInterClose());
-               #if USE_AD_NETWORKS
-                AdsManager.Ins.TryShow_DoubleInter(OnInterClose);
-               #endif
-            }
-
-            #if USE_FIREBASE_ANALYTICS
-            AnalyticsAdapter.Log_LevelState(DataManager.Ins.PProgressData.LevelId + 1, AnalyticsConst.EVENT_LEVEL_RESTARTED);
-            #endif
+           
         }
 
         private void OnClickBack()
         {
-            if (!isInteractable)
-            {
-                var args = new ToastArgs
-                {
-                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    textColor = Color.white,
-                    textFont = UGUIManager.Ins.DefaultFont,
-                    customDuration = 0.5f,
-                };
-                AnimationManager.Ins.Play(args);
-                return;
-            }
-            
-            UGUIManager.Ins.HideGUI(this);
-
-            float loadDuration = UGUIConst.FAKE_LOAD_DURATION;
-            UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUILoadingScreen, delay: 0.1f, loadDuration);
-            
-            
-            DebugLogger.Log(message: $"About to show gui home");
-            UGUIManager.Ins.ShowGUI(UGUIManager.Ins.GUIHome, delay: loadDuration + 0.1f);  
-            
-            MMEventManager.TriggerEvent(new EGameQuit_Fire());
+          
         }
 
         #endregion

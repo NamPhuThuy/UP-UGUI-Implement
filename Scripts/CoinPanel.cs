@@ -1,7 +1,6 @@
 using DG.Tweening;
 using MoreMountains.Tools;
 using NamPhuThuy.Common;
-using NamPhuThuy.DataManage;
 using TMPro;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ using UnityEngine;
 namespace NamPhuThuy.UGUIImplement
 {
 
-    public class CoinPanel : MonoBehaviour, MMEventListener<EResourceUpdated>
+    public class CoinPanel : MonoBehaviour
     {
         #region Private Serializable Fields
 
@@ -49,10 +48,11 @@ namespace NamPhuThuy.UGUIImplement
             }
             else
             {
-                coinText.text = DataManager.Ins.PInventoryData.Coin.ToString();
+                // Set coinText.text 
             }
         }
 
+        private int targetValue = 12;
         private void AnimateCoinUpdate()
         {
             int currentCoin = int.Parse(CoinText.text);
@@ -67,7 +67,7 @@ namespace NamPhuThuy.UGUIImplement
                     currentValue = x;
                     coinText.text = currentValue.ToString();
                 },
-                DataManager.Ins.PInventoryData.Coin,
+                targetValue,
                 0.3f
             )
             .SetEase(Ease.Linear);
@@ -80,17 +80,5 @@ namespace NamPhuThuy.UGUIImplement
         public RectTransform CoinImage => coinImage;
 
         #endregion
-
-        #region Events Listen
-
-        public void OnMMEvent(EResourceUpdated eventArgs)
-        {
-            if (eventArgs.ResourceType == ResourceType.COIN)
-                UpdateUI();
-        }
-
-        #endregion
-
-
     }
 }

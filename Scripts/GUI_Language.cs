@@ -84,7 +84,7 @@ namespace NamPhuThuy.UGUIImplement
             // Debug.Log($"GUILanguage.OnClickConfirm(), current lang: {currentLanguage}");
             if (!isConfirmButtonActive) return;
 
-            Lean.Localization.LeanLocalization.SetCurrentLanguageAll(currentLanguage.ToString());
+            // Set new language
             Hide();
 
         }

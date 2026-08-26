@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using NamPhuThuy.DataManage;
 using TMPro;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -90,7 +89,7 @@ namespace NamPhuThuy.UGUIImplement
                 else sfxSwitch.SetState(ButtonSwitchFade.State.OFF);
             }
             
-            tmp = DataManager.Ins.PSettingsData.vibrationEnabled;
+            tmp = true/*DataManager.Ins.PSettingsData.vibrationEnabled*/;
             ButtonSwitchFade vibrateSwitch = vibrationButton.GetComponent<ButtonSwitchFade>();
             if (vibrateSwitch != null)
             {
@@ -98,7 +97,7 @@ namespace NamPhuThuy.UGUIImplement
                 else vibrateSwitch.SetState(ButtonSwitchFade.State.OFF);
             }
             
-            tmp = DataManager.Ins.PSettingsData.notifyEnabled;
+            tmp = true/*DataManager.Ins.PSettingsData.notifyEnabled*/;
             ButtonSwitchFade notifySwitch = notificationButton.GetComponent<ButtonSwitchFade>();
             if (notifySwitch != null)
             {
@@ -146,96 +145,22 @@ namespace NamPhuThuy.UGUIImplement
 
         private void OnClickMusic()
         {
-            bool tmp = DataManager.Ins.PSettingsData.musicEnabled;
-            tmp = !tmp;
-            DataManager.Ins.PSettingsData.musicEnabled = tmp;
-#if USE_AUDIO
-            AudioManager.Ins.IS_MUSIC_ON = tmp;
-#endif
-            DataManager.Ins.MarkDirty();
-            
-            ButtonSwitchFade musicSwitch = musicButton.GetComponent<ButtonSwitchFade>();
-            if (musicSwitch != null)
-            {
-                if (tmp)
-                {
-                    musicSwitch.SetState(ButtonSwitchFade.State.ON);
-                }
-                else
-                {
-                    musicSwitch.SetState(ButtonSwitchFade.State.OFF);
-                }
-                
-            }
+           
         }
 
         private void OnClickSound()
         {
-            bool tmp = DataManager.Ins.PSettingsData.sfxEnabled;
-            tmp = !tmp;
-            DataManager.Ins.PSettingsData.sfxEnabled = tmp;
-#if USE_AUDIO
-            AudioManager.Ins.IS_SOUND_ON = tmp;
-#endif
-            DataManager.Ins.MarkDirty();
             
-            ButtonSwitchFade sfxSwitch = sfxButton.GetComponent<ButtonSwitchFade>();
-            if (sfxSwitch != null)
-            {
-                if (tmp)
-                {
-                    sfxSwitch.SetState(ButtonSwitchFade.State.ON);
-                }
-                else
-                {
-                    sfxSwitch.SetState(ButtonSwitchFade.State.OFF);
-                }
-                
-            }
         }
 
         private void OnClickVibration()
         {
-            bool tmp = DataManager.Ins.PSettingsData.vibrationEnabled;
-            tmp = !tmp;
-            DataManager.Ins.PSettingsData.vibrationEnabled = tmp;
-            DataManager.Ins.MarkDirty();
             
-            ButtonSwitchFade vibrateSwitch = vibrationButton.GetComponent<ButtonSwitchFade>();
-            if (vibrateSwitch != null)
-            {
-                if (tmp)
-                {
-                    vibrateSwitch.SetState(ButtonSwitchFade.State.ON);
-                }
-                else
-                {
-                    vibrateSwitch.SetState(ButtonSwitchFade.State.OFF);
-                }
-                
-            }
         }
 
         private void OnClickNotification()
         {
-            bool tmp = DataManager.Ins.PSettingsData.notifyEnabled;
-            tmp = !tmp;
-            DataManager.Ins.PSettingsData.notifyEnabled = tmp;
-            DataManager.Ins.MarkDirty();
             
-            ButtonSwitchFade notifySwitch = notificationButton.GetComponent<ButtonSwitchFade>();
-            if (notifySwitch != null)
-            {
-                if (tmp)
-                {
-                    notifySwitch.SetState(ButtonSwitchFade.State.ON);
-                }
-                else
-                {
-                    notifySwitch.SetState(ButtonSwitchFade.State.OFF);
-                }
-                
-            }
         }
 
         private void OnDisable()

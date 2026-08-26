@@ -12,7 +12,7 @@ using NamPhuThuy.IAPAdapter;
 namespace NamPhuThuy.UGUIImplement
 {
 
-    public class IAPElementBundle : IAPElementBase, MMEventListener<EIAPInfoFetched>
+    public class IAPElementBundle : IAPElementBase
     {
         #region Private Serializable Fields
 
@@ -71,19 +71,6 @@ namespace NamPhuThuy.UGUIImplement
             BuyWithGuard();
         }
 
-        // not called
-        public void OnMMEvent(EIAPInfoFetched eventArgs)
-        {
-            foreach (var iapRecord in eventArgs.iapData)
-            {
-                if (iapRecord.BundleId == iapPackId)
-                {
-                    priceText.text = iapRecord.Price;
-
-                    break;
-                }
-            }
-        }
 
         #endregion
 

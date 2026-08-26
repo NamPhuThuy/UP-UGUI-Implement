@@ -1,9 +1,7 @@
 using System.Collections;
-using Lean.Localization;
 using NamPhuThuy.AnimateWithScripts;
 using NamPhuThuy.Common;
 
-using NamPhuThuy.Lean_Localization;
 using NamPhuThuy.UGUIImplement;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,15 +58,7 @@ namespace NamPhuThuy
         {
             if (IsBuying)
             {
-                var args = new ToastArgs
-                {
-                    message = LeanLocalization.GetTranslationText(LeanLocalizedConst.READYING),
-                    customAnchoredPos = AnimationConst.UPPER_ANCHORED_POS,
-                    textFont = UGUIManager.Ins.DefaultFont,
-                    textColor = Color.white,
-                    customDuration = 0.5f,
-                };
-                AnimationManager.Ins.Play(args);
+                // Play a toast
                 return;
             }
             IsBuying = true;

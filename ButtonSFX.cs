@@ -69,7 +69,6 @@ namespace NamPhuThuy.UGUIImplement
             base.OnInspectorGUI();
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Reset Values", GUILayout.Width(InspectorConst.BUTTON_WIDTH_MEDIUM))) _script.ResetValues();
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }

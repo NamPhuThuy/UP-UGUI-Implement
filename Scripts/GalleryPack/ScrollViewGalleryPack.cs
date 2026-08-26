@@ -1,6 +1,4 @@
 using System;
-using NamPhuThuy.DataManage;
-using NamPhuThuy.GirlGallery;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -15,9 +13,6 @@ namespace NamPhuThuy.UGUIImplement
 
         [Header("View")]
         [SerializeField] private RectTransform content;
-
-        [SerializeField] private Element_GalleryPack elementGalleryPack;
-        public Element_GalleryPack ElementGalleryPack => elementGalleryPack;
 
         #endregion
 
@@ -63,25 +58,6 @@ namespace NamPhuThuy.UGUIImplement
             _currentElementPositionY -= rect.sizeDelta.y + _elementSpacing.y;
         }
 
-        private void LoadGalleryPack(GalleryPackRecord packData)
-        {
-            // Debug.Log($"ScrolLViewGallery.LoadGalleryPack()");
-            Element_GalleryPack element = Instantiate(elementGalleryPack, content.transform);
-
-            RectTransform rect = element.GetComponent<RectTransform>();
-            ExpandContentSizeDelta(rect);
-
-            element.backGroundImage.sprite = packData.backgroundSprite;
-            // element.descriptionImage.sprite = packData.descriptionSprite;
-            element.titleImage.sprite = packData.titleSprite;
-            element.titleText./*GetComponent<LeanLocalizedTextMeshProUGUI>().TranslationName*/text = packData.packName;
-
-            element.priceText.text = packData.price.ToString();
-            element.currentPackStyle = packData.packType;
-            element.packPrice = packData.price;
-
-            element.CheckUnlockedAllState();
-        }
 
         public void UpdateContent()
         {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using NamPhuThuy.DataManage;
 
 
 #if UNITY_EDITOR
@@ -19,7 +18,7 @@ namespace NamPhuThuy.UGUIImplement
 
         #region Serializable Fields
 
-        [SerializeField] private List<ResourceAmount> currentRewardList;
+        [SerializeField] private List<int> currentRewardList;
 
         [SerializeField] private Button okButton;
         [SerializeField] private Button closeButton;
@@ -30,66 +29,12 @@ namespace NamPhuThuy.UGUIImplement
 
         private GUIRewardItem[] _rewardItems;
 
-        private void SetupRewards(List<ResourceAmount> rewardList)
+        private void SetupRewards(List<int> rewardList)
         {
             List<RectTransform> validResourceGroups = new List<RectTransform>();
 
-            foreach (ResourceAmount reward in rewardList)
-            {
-                switch (reward.resourceType)
-                {
-                    case ResourceType.NO_ADS:
-                        validResourceGroups.Add(rewardItemRTs[0]);
-                        break;
-
-                    case ResourceType.COIN:
-                        if (reward.amount <= 0) break;
-
-                        _rewardItems[1].SetQuantity(reward.amount);
-                        validResourceGroups.Add(rewardItemRTs[1]);
-                        break;
-
-                    case ResourceType.BOOSTER:
-                        if (reward.boosterType == BoosterType.UNDO)
-                        {
-                            _rewardItems[2].SetQuantity(reward.amount);
-                            validResourceGroups.Add(rewardItemRTs[2]);
-                        }
-                        else if (reward.boosterType == BoosterType.SHUFFLE)
-                        {
-                            _rewardItems[3].SetQuantity(reward.amount);
-                            validResourceGroups.Add(rewardItemRTs[3]);
-                        }
-                        else if (reward.boosterType == BoosterType.MAGIC_PICK)
-                        {
-                            _rewardItems[4].SetQuantity(reward.amount);
-                            validResourceGroups.Add(rewardItemRTs[4]);
-                        }
-                        break;
-                }
-            }
-
-            Vector3 position = Vector3.zero;
-            position.y = validResourceGroups[0].localPosition.y;
-
-            for (int i = 0; i < rewardItemRTs.Length; i++)
-            {
-                rewardItemRTs[i].gameObject.SetActive(false);
-            }
-
-            for (int i = 0; i < validResourceGroups.Count; i++)
-            {
-                position.x = (-(validResourceGroups.Count - 1) / 2f + i) * 0.17f * container.sizeDelta.x;
-
-                validResourceGroups[i].gameObject.SetActive(true);
-                validResourceGroups[i].localPosition = position;
-            }
         }
 
-        private void SetupRewards2(List<ResourceAmount> resourceRewards)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 
@@ -124,14 +69,7 @@ namespace NamPhuThuy.UGUIImplement
         {
             Hide();
 
-            foreach (ResourceAmount reward in currentRewardList)
-            {
-                if (reward.resourceType == ResourceType.COIN)
-                {
-                    
-                    break;
-                }
-            }
+           
         }
 
         #endregion
@@ -144,7 +82,7 @@ namespace NamPhuThuy.UGUIImplement
 
             if (parameters != null)
             {
-                currentRewardList = (List<ResourceAmount>)parameters[0];
+                currentRewardList = (List<int>)parameters[0];
             }
             SetupRewards(currentRewardList);
             // SetupRewards2(currentRewardList);
