@@ -4,7 +4,7 @@ Github: https://github.com/NamPhuThuy
 
 using UnityEngine;
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     public static partial class UGUIConst
     {

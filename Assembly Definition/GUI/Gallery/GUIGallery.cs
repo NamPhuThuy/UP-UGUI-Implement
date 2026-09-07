@@ -13,7 +13,7 @@ using NamPhuThuy.UI;
 using UnityEditor;
 #endif
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
 
     public class GUIGallery : GUIBase

@@ -4,7 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     
     public static class ScrollRectExtenstion

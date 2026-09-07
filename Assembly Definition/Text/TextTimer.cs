@@ -3,6 +3,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+namespace NamPhuThuy.UGUIAdapter
+{
 public class TextTimer : MonoBehaviour
 {
     private enum TimerType
@@ -59,4 +61,5 @@ public class TextTimer : MonoBehaviour
             _displayTime.text = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, seconds);
         }
     }
+}
 }

@@ -10,7 +10,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIAdapter
 {
     [RequireComponent(typeof(RectTransform), typeof(Image))]
     public class HeaderImageAutoFitter : MonoBehaviour

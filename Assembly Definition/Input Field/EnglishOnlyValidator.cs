@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     [CreateAssetMenu(fileName = "EnglishOnlyValidator", menuName = "TMPro/Validators/English Only")]
     public class EnglishOnlyValidator : TMPro.TMP_InputValidator

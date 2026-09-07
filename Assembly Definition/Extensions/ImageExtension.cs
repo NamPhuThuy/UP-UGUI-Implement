@@ -6,7 +6,7 @@ Supports: ScreenSpace-Overlay, ScreenSpace-Camera, WorldSpace
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     public static class ImageExtension
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     /// Keeps a SpriteRenderer's apparent screen size constant as the camera zooms/changes.
     [ExecuteAlways]

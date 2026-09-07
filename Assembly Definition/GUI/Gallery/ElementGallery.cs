@@ -11,7 +11,7 @@ using DG.Tweening;
 using UnityEditor;
 #endif
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIAdapter
 {
 
     public class ElementGallery : MonoBehaviour

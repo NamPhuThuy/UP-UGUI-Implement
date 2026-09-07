@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+namespace NamPhuThuy.UGUIAdapter
+{
 [CreateAssetMenu(fileName = "SamplePlayerData", menuName = "ScriptableObjects/SamplePlayerData", order = 4)]
 public class SamplePlayerData : ScriptableObject
 {
@@ -28,4 +30,5 @@ public enum Rank
     DIAMOND,
     MASTER,
     CHALLENGER
+}
 }

@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace NamPhuThuy.UGUIAdapter
+{
 public class TextFlicker : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textToFlicker;
@@ -39,4 +41,5 @@ public class TextFlicker : MonoBehaviour
             textToFlicker.color = new Color(textToFlicker.color.r, textToFlicker.color.g, textToFlicker.color.b, currentAlpha);
         }
     }
+}
 }

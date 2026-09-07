@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace NamPhuThuy.UGUIAdapter
+{
 public class TextFPSDisplay : MonoBehaviour
 {
     private float deltaTime = 0.0f;
@@ -26,4 +28,5 @@ public class TextFPSDisplay : MonoBehaviour
         string text = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
         GUI.Label(rect, text, style);
     }
+}
 }

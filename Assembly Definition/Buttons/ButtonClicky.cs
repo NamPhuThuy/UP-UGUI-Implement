@@ -12,7 +12,7 @@ using UnityEngine.UI;
 #if USE_HAPTICS
 using NamPhuThuy.Common;
 #endif
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     public class ButtonClicky : Button, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
     {

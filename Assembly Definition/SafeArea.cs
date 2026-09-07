@@ -17,7 +17,7 @@ HƯỚNG DẪN SỬ DỤNG:
 */
 
 
-namespace Doors.Utilities
+namespace NamPhuThuy.UGUIAdapter
 {
     /// <summary>
     /// Conforms this <see cref="RectTransform"/> to the device safe area

@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace NamPhuThuy.UGUIAdapter
+{
 public class ContentElement : MonoBehaviour
 {
     //DATA
@@ -66,4 +68,5 @@ public class ContentElement : MonoBehaviour
     {
         
     }
+}
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIAdapter
 {
     [RequireComponent(typeof(RectTransform), typeof(Image))]
     public class FitToParentTag : MonoBehaviour

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using UnityEditor;
 #endif
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     public class RectTransformTester : MonoBehaviour
     {

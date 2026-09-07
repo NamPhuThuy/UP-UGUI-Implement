@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIAdapter
 {
     public class ScrollViewGallery : MonoBehaviour
     {

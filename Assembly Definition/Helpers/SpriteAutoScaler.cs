@@ -1,7 +1,7 @@
 using NamPhuThuy;
 using UnityEngine;
 
-namespace NamPhuThuy.UGUIImplement
+namespace NamPhuThuy.UGUIAdapter
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class SpriteAutoScaler : MonoBehaviour

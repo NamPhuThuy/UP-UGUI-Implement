@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace NamPhuThuy.UI
+namespace NamPhuThuy.UGUIAdapter
 {
     public static class ScrollViewExtension
     {

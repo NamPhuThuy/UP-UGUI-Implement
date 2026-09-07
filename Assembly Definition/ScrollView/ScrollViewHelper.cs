@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace NamPhuThuy.UGUIAdapter
+{
 public class ScrollViewHelper : MonoBehaviour
 {
     [Header("Data")] 
@@ -69,4 +71,5 @@ public class ScrollViewHelper : MonoBehaviour
         }
         
     }
+}
 }
