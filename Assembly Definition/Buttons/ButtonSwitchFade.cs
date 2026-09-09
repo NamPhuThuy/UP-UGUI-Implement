@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using NamPhuThuy.Common;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.UI;
 #endif
 
 namespace NamPhuThuy.UGUIAdapter
 {
     
-    public class ButtonSwitchFade : MonoBehaviour
+    public class ButtonSwitchFade : Button
     {
         
         public enum State
@@ -26,7 +29,8 @@ namespace NamPhuThuy.UGUIAdapter
         [SerializeField] private State currentState = State.NONE;
         
         [Header("Background")]
-        [SerializeField] private Image backgroundImage;
+        [FormerlySerializedAs("backgroundImage")]
+        [SerializeField] private Image offStateImage;
         [SerializeField] private Image onStateImage;
         [SerializeField] private GameObject additionOnStateObj;
         [SerializeField] private GameObject additionOffStateObj;
@@ -47,6 +51,8 @@ namespace NamPhuThuy.UGUIAdapter
         private Tween _moveTween;
         
         public State CurrentState => currentState;
+        public Image OffStateImage => offStateImage;
+        public Image OnStateImage => onStateImage;
 
         #endregion
 
@@ -54,11 +60,20 @@ namespace NamPhuThuy.UGUIAdapter
         
         private void ApplyStateImmediate()
         {
-            // Set overlay image (onStateImage) alpha based on state
-            float targetAlpha = currentState == State.ON ? 1f : 0f;
+            // Set state image alphas based on state
+            float onTargetAlpha = currentState == State.ON ? 1f : 0f;
+            float offTargetAlpha = currentState == State.ON ? 0f : 1f;
+
             Color onColor = onStateImage.color;
-            onColor.a = targetAlpha;
+            onColor.a = onTargetAlpha;
             onStateImage.color = onColor;
+
+            Color offColor = offStateImage.color;
+            offColor.a = offTargetAlpha;
+            offStateImage.color = offColor;
+
+            if (additionOnStateObj != null) additionOnStateObj.SetActive(currentState == State.ON);
+            if (additionOffStateObj != null) additionOffStateObj.SetActive(currentState == State.OFF);
 
             // Move indicator to correct position
             indicator.anchoredPosition = currentState == State.ON
@@ -68,48 +83,52 @@ namespace NamPhuThuy.UGUIAdapter
 
         private void AnimateToState()
         {
-            // Fade background
-            Color targetColor = currentState == State.ON ? onStateImage.sprite.texture.GetPixel(100, 50) : backgroundImage.sprite.texture.GetPixel(100, 50);
-            
-            int targetAlpha = currentState == State.ON ? 1 : 0;
+            // Fade state images
+            float onTargetAlpha = currentState == State.ON ? 1f : 0f;
+            float offTargetAlpha = currentState == State.ON ? 0f : 1f;
 
-            _fadeTween = DOTween.Sequence()
-                .Append(onStateImage.DOFade(targetAlpha, fadeDuration))
-                .AppendCallback((() =>
+            Sequence fadeSeq = DOTween.Sequence()
+                .Join(onStateImage.DOFade(onTargetAlpha, fadeDuration).OnComplete(() =>
                 {
-                    var c = onStateImage.color;
-                    c.a = targetAlpha;              // force alpha to 1
+                    Color c = onStateImage.color;
+                    c.a = onTargetAlpha;
                     onStateImage.color = c;
+                }))
+                .Join(offStateImage.DOFade(offTargetAlpha, fadeDuration).OnComplete(() =>
+                {
+                    Color c = offStateImage.color;
+                    c.a = offTargetAlpha;
+                    offStateImage.color = c;
                 }));
 
             if (isChangeColor)
             {
-                _fadeTween = DOTween.Sequence()
-                    .Append(onStateImage.DOColor(targetColor, fadeDuration))
-                    .AppendCallback(() =>
-                    {
-                        onStateImage.color = Color.white;
-                    });
-            }            
+                Image targetImage = currentState == State.ON ? onStateImage : offStateImage;
+                Color targetColor = targetImage.sprite.texture.GetPixel(100, 50);
+                fadeSeq.Join(targetImage.DOColor(targetColor, fadeDuration).OnComplete(() =>
+                {
+                    targetImage.color = Color.white;
+                }));
+            }
 
-            additionOffStateObj?.SetActive(false);
-            additionOnStateObj?.SetActive(false);
+            _fadeTween = fadeSeq;
+
+            if (additionOffStateObj != null) additionOffStateObj.SetActive(false);
+            if (additionOnStateObj != null) additionOnStateObj.SetActive(false);
             
             // Move indicator
             Vector2 targetPosition = currentState == State.ON ? indicatorOnPivot.anchoredPosition : indicatorOffPivot.anchoredPosition;
-            _moveTween = indicator.DOAnchorPos(targetPosition, moveDuration).SetEase(moveEase).OnComplete((() =>
+            _moveTween = indicator.DOAnchorPos(targetPosition, moveDuration).SetEase(moveEase).OnComplete(() =>
             {
                 if (currentState == State.ON)
                 {
-                    additionOnStateObj?.SetActive(true);
+                    if (additionOnStateObj != null) additionOnStateObj.SetActive(true);
                 }
                 else if (currentState == State.OFF)
                 {
-                    additionOffStateObj?.SetActive(true);
+                    if (additionOffStateObj != null) additionOffStateObj.SetActive(true);
                 }
-            }));
-            
-            
+            });
         }
 
         private void OnDestroy()
@@ -120,6 +139,28 @@ namespace NamPhuThuy.UGUIAdapter
         
         #endregion
 
+        #region Spam-Click Handling
+
+        /// <summary>
+        /// Returns true if the switch is currently animating.
+        /// </summary>
+        public bool IsTweening()
+        {
+            return (_moveTween != null && _moveTween.IsActive() && _moveTween.IsPlaying()) ||
+                   (_fadeTween != null && _fadeTween.IsActive() && _fadeTween.IsPlaying());
+        }
+
+        /// <summary>
+        /// Handles player spam-clicking by completing running tweens before transitioning.
+        /// </summary>
+        public void HandleSpamClick()
+        {
+            _fadeTween?.Kill(complete: true);
+            _moveTween?.Kill(complete: true);
+        }
+
+        #endregion
+
         #region Public Methods
         
         public void SetState(State newState, bool immediate = false)
@@ -128,9 +169,7 @@ namespace NamPhuThuy.UGUIAdapter
 
             currentState = newState;
 
-            // Kill existing tweens
-            _fadeTween?.Kill();
-            _moveTween?.Kill();
+            HandleSpamClick();
 
             if (immediate)
             {
@@ -144,6 +183,11 @@ namespace NamPhuThuy.UGUIAdapter
 
         public void ToggleState()
         {
+            if (IsTweening())
+            {
+                HandleSpamClick();
+            }
+
             SetState(currentState == State.OFF ? State.ON : State.OFF);
         }
         
@@ -159,10 +203,10 @@ namespace NamPhuThuy.UGUIAdapter
         #endregion
     }
 
-    /*#if UNITY_EDITOR
+    #if UNITY_EDITOR
     [CustomEditor(typeof(ButtonSwitchFade))]
     [CanEditMultipleObjects]
-    public class ButtonSwitchFadeEditor : Editor
+    public class ButtonSwitchFadeEditor : ButtonEditor
     {
         private ButtonSwitchFade script;
         private Texture2D frogIcon;
@@ -193,5 +237,5 @@ namespace NamPhuThuy.UGUIAdapter
             GUILayout.EndHorizontal();
         }
     }
-    #endif*/
+    #endif
 }

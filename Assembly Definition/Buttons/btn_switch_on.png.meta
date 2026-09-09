@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3e99543d757f69848b03c605318e021c
+guid: 124e275fce027a449b4c1e0c5f5f9102
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2070716293887909454
-    second: ui_2_0
+      213: -4901390789261433385
+    second: Rectangle 1785 (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +24,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -72,10 +72,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 2
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,7 +100,7 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 47
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui_2_0
+      name: Rectangle 1785 (1)_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 5
-        width: 226
-        height: 110
+        x: 0
+        y: 0
+        width: 135
+        height: 59
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e4e5dc78f79acbc10800000000000000
-      internalID: 2070716293887909454
+      spriteID: 7d563bcbb03cafbb0800000000000000
+      internalID: -4901390789261433385
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ui_2_0: 2070716293887909454
+      Rectangle 1785 (1)_0: -4901390789261433385
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
